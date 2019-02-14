@@ -1,0 +1,81 @@
+class Element {
+    constructor(id, label, required = true, validator = null) {
+        this.id = id;
+        this.label = label;
+        this.required = required;
+        this.validator = validator;
+    }
+
+    static loadTemplates(callback) {
+        Element.templates = {};
+
+        $.get("/scripts/form-ui/_templates.php", {}, function (response) {
+            let templates = response.split("@Template");
+
+            for (let templStr of templates) {
+                let split = templStr.indexOf("<");
+                let key = templStr.substring(0, split).trim();
+
+                if (key !== "")
+                    Element.templates[key] = templStr.substring(split).trim();
+            }
+
+            callback()
+        });
+    }
+
+    load() {
+        const name = this.constructor.name;
+        if (Element.templates.hasOwnProperty(name)) {
+            this.html = $(this._formatTemplate(Element.templates[name]));
+            this._prepareTemplate();
+        } else {
+            this.html = $('<div></div>');
+        }
+    }
+
+    value(v) {
+        return null;
+    }
+
+    validate() {
+        if (this.validator)
+            return this.validator(this.value());
+        else
+            return true;
+    }
+
+    complete() {
+        return true;
+    }
+
+    getElement(name) {
+        const attr = 'data-' + name;
+
+        if (this.html.attr(attr) !== undefined) {
+            return this.html;
+        } else {
+            return this.html.find('[data-' + name + ']');
+        }
+    }
+
+    hidden(v) {
+        if (v !== undefined) {
+            this.html.toggleClass('hidden', v);
+            return this;
+        } else {
+            return this.html.hasClass('hidden');
+        }
+    }
+
+    _prepareTemplate() {
+    }
+
+    _formatTemplate(template) {
+        return template.replace(/%id%/g, this.id).replace(/%label%/g, this.label);
+    }
+}
+
+const $form = {
+    ready: Element.loadTemplates
+};
