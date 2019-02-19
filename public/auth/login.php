@@ -1,7 +1,6 @@
 <?php include '../header.php'; ?>
 
     <div id="form-login"></div>
-
     <script>
         $form.ready(function () {
             const form = new GroupElement("form", "Account")
