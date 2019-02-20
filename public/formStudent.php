@@ -17,6 +17,7 @@
                 .append(new TextElement("endDate", "End Date"))
                 .append(new TextElement("hourWork", "Total Hours Worked"))
                 .append(new RowElement()
+                    .append(new ButtonElement("previous", "<", onPrevious)));
                     .append(new ButtonElement("next", ">", onNext)));
 
             const form = new GroupElement("form", "Questionnaire")
@@ -30,19 +31,26 @@
                 .append(new TextElement("provideContacts", "Did the internship provide you with contacts which may lead to future employment?"))
                 .append(new TextElement("rateExperience", "Considering your overall experience, how would you rate this internship?")) //NOT FINISHED: Radio
                 .append(new RowElement()
+                    .append(new ButtonElement("previous", "<", onPrevious)));
                     .append(new ButtonElement("next", ">", onNext)));
 
             const form = new GroupElement("form", "Salary")
+                .append(new RatingElement("paid", "Yes"))
+                .append(new RatingElement("paid", "No"))
                 .append(new TextElement("paid", "Were you paid?")) //NOT FINISHED: Radio button
                 .append(new TextElement("hourlyRate", "If so, how much per hour?"))
                 .append(new TextElement("housingStipend", "Did you receive a housing stipend?")) //NOT FINISHED: Radio button
                 .append(new TextElement("assistance", "Did you receive any assistance from the company for your internship? Please select all that apply")) //NOT FINISHED: Check box
                 .append(new RowElement()
+                    .append(new ButtonElement("previous", "<", onPrevious)));
                     .append(new ButtonElement("submit", "Submit", onSubmit)));
 
             $('#form-student').append(form.html);
 
             function onNext() {
+                
+            }
+            function onPrevious() {
                 
             }
             
