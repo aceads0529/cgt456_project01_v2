@@ -91,7 +91,7 @@ function createSessionForm() {
 function createPromptsForm() {
     return new GroupElement("form", "Questionnaire")
         .append(new YesNoElement("offsite", "Was the internship off-site?"))
-        .append(new TextareaElement("activities", "List 5 activities that you regularly performed during the internship. Give examples of activities.")) //NOT FINISHED: Check with aaron
+        .append(new TextareaElement("activities", "List 5 activities that you regularly performed during the internship. Give examples of activities."))
         .append(new TextareaElement("relevantWork", "Did the supervisor give you relevant work to accomplish? Specify!"))
         .append(new TextareaElement("difficulties", "Difficulties or problem areas encountered during internship."))
         .append(new TextareaElement("relatedToMajor", "Explain how work experience related to your major."))
