@@ -8,6 +8,17 @@ $api = {
         const domain = splits[0];
         action = splits[1];
 
-        $.post('/api/' + domain + '/?action=' + action, data, callback);
+        $.post('/api/' + domain + '/?XDEBUG_SESSION_START=PHPSTORM&action=' + action, data, callback);
+    },
+
+    formData: function (form) {
+        const data = $(form).serializeArray();
+        const result = {};
+
+        for (const d of data) {
+            result[d.name] = d.value;
+        }
+
+        return result;
     }
 };

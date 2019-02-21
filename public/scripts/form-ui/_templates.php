@@ -7,24 +7,32 @@
 </div>
 
 @Template TextElement
-<div class="form-text">
-    <label for="%id%">%label%</label>
-    <input data-text type="text" id="%id%"/>
+<div class="form-row">
+    <div class="label-input">
+        <label for="%id%">%label%</label>
+        <input data-text type="text" id="%id%"/>
+    </div>
 </div>
 
 @Template TextareaElement
-<div class="form-textarea">
-    <label for="%id%">%label%</label>
-    <textarea data-text id="%id%" rows="6"></textarea>
+<div class="form-row">
+    <div class="label-input">
+        <label for="%id%">%label%</label>
+        <textarea data-text id="%id%" rows="6"></textarea>
+    </div>
 </div>
 
-@Template RatingElement
-<div class="form-rating">
-    <label>%label%</label>
-    <div data-options class="options">
-        <div class="radio-item" data-radio-group>
-            <input data-radio type="radio" name="%id%"/>
-            <label class="radio-label" data-radio-label></label>
+@Template OptionElement
+<div class="form-row">
+    <div class="label-input">
+        <label>%label%</label>
+        <div data-options class="options">
+            <div class="option-group" data-option-group>
+                <div class="option" data-option>
+                    <input data-option-input type="%type%" name="%id%"/>
+                    <label data-option-label></label>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -42,3 +50,16 @@
 
 @Template ReadonlyElement
 <input type="hidden"/>
+
+@Template SearchElement
+<div class="form-row">
+    <div class="label-input">
+        <label for="%id%">%label%</label>
+        <div class="searchbox">
+            <input data-text type="text" autocomplete="off" id="%id%"/>
+            <ul class="search-results" data-search-list>
+                <li data-search-item></li>
+            </ul>
+        </div>
+    </div>
+</div>

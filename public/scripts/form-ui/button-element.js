@@ -18,4 +18,8 @@ class ButtonElement extends Element {
             return undefined;
         }
     }
+
+    complete() {
+        return true;
+    }
 }

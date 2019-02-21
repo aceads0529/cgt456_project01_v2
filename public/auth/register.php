@@ -1,10 +1,10 @@
 <?php include '../header.php'; ?>
 
-    <div id="form-login"></div>
+    <form id="form-login"></form>
 
     <script>
         $form.ready(function () {
-            const form = new GroupElement("form", "Account")
+            const form = new GroupElement("form", "New Account")
                 .append(new TextElement("login", "Login"))
                 .append(new TextElement("password", "Password", "password"))
                 .append(new TextElement("firstName", "First name"))

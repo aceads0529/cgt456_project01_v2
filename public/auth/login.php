@@ -1,29 +1,26 @@
 <?php include '../header.php'; ?>
 
+    <form id="form-login">
+        <div class="ui-right">
+            <input type="submit" class="accent" value="Login"/>
+        </div>
+    </form>
+
     <div id="form-login"></div>
     <script>
         $form.ready(function () {
-            const form = new GroupElement("form", "Account")
+            const loginForm = new GroupElement("login", "Login")
                 .append(new TextElement("login", "Login"))
-                .append(new TextElement("password", "Password", "password"))
-                .append(new RowElement()
-                    .append(new ButtonElement("submit", "Login", onSubmit)));
+                .append(new TextElement("password", "Password"));
 
-            $('#form-login').append(form.html);
+            $('#form-login').prepend(loginForm.html);
+            $('#form-login').submit(function (e) {
+                e.preventDefault();
 
-            function onSubmit() {
-                if (form.complete()) {
-                    $api.call('user/login', form.value(), function (response) {
-                        if (response.success) {
-                            location.reload();
-                        } else {
-                            form.error(response.message);
-                        }
-                    });
-                } else {
-                    form.error('Missing required fields');
-                }
-            }
+                $api.call('user/login', loginForm.value(), function (response) {
+                    console.log(response);
+                });
+            });
         });
     </script>
 

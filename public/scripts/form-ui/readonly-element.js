@@ -1,6 +1,6 @@
 class ReadonlyElement extends Element {
-    constructor(id, value) {
-        super(id, "");
+    constructor(id, value, required = false) {
+        super(id, "", required);
         this.load();
         this.value(value);
     }

@@ -15,7 +15,7 @@ class TextElement extends Element {
     }
 
     complete() {
-        return this.value() !== "";
+        return !this.required || this.value() !== "";
     }
 
     _prepareTemplate() {

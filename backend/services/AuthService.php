@@ -10,10 +10,9 @@ class AuthService
      */
     public static function login($login, $password)
     {
-        if ($user = User::dao()->select_by('login', $login)) {
-            /** @var User $user */
-            $user = $user[0];
+        $dao = UserDao::get_instance();
 
+        if ($user = $dao->select_login($login)) {
             if ($user->try_password($password)) {
                 self::set_active_user($user);
                 return true;
@@ -34,11 +33,35 @@ class AuthService
     }
 
     /**
+     * @return User
+     */
+    public static function get_active_user_or_deny()
+    {
+        if ($user = SessionService::get('auth_active_user')) {
+            return $user;
+        } else {
+            Response::error_permission()->echo(true);
+        }
+    }
+
+    /**
      * @param User $user
      */
     public static function set_active_user($user)
     {
         SessionService::set('auth_active_user', $user);
+    }
+
+    /**
+     * @param User $user
+     */
+    public static function get_user_permissions($user)
+    {
+        $group = $user !== null ? $user->user_group_id : null;
+
+        switch ($group) {
+            case 'admin':
+        }
     }
 
     /**

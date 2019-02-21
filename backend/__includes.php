@@ -25,7 +25,7 @@ function get_php_files($root = '')
 
     if (is_dir(__DIR__ . $root)) {
         foreach (scandir(__DIR__ . $root) as $item) {
-            if ($item[0] == '.')
+            if ($item[0] === '.')
                 continue;
             $result = array_merge($result, get_php_files($root . '\\' . $item));
         }
@@ -36,7 +36,7 @@ function get_php_files($root = '')
         $result[] = '';
 
     } elseif (pathinfo($root, PATHINFO_DIRNAME) != '\\'
-        && pathinfo($root, PATHINFO_EXTENSION) == 'php'
+        && pathinfo($root, PATHINFO_EXTENSION) === 'php'
         && pathinfo($root, PATHINFO_FILENAME) != 'index') {
         $result = [sprintf(INCLUDE_TEMPLATE, $root)];
     }

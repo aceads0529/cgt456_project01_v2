@@ -46,7 +46,12 @@ class Element {
     }
 
     complete() {
-        return true;
+        return this.id === null || !this.required || !!this.value();
+    }
+
+    style(styles) {
+        this.html.addClass(styles);
+        return this;
     }
 
     getElement(name) {

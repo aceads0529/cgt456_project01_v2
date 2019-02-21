@@ -8,7 +8,7 @@ class GroupElement extends Element {
 
     _prepareTemplate() {
         if (!this.label) {
-            this.getElement('label').remove();
+            this.getElement('itemLabel').remove();
         }
 
         this.errorElem = this.getElement('error');

@@ -1,6 +1,10 @@
 <?php
 include_once __DIR__ . '\..\includes.php';
 
+/**
+ * Class User
+ * @method static UserDao dao()
+ */
 class User extends Entity
 {
     public $login, $password_hash, $password_salt, $user_group_id,
@@ -36,7 +40,7 @@ class User extends Entity
     /**
      * @return UserDao
      */
-    public static function dao()
+    protected static function getDao()
     {
         return new UserDao();
     }
@@ -56,6 +60,6 @@ class User extends Entity
     {
         return $this->password_salt
             && $this->password_hash
-            && md5($password . $this->password_salt) == $this->password_hash;
+            && md5($password . $this->password_salt) === $this->password_hash;
     }
 }

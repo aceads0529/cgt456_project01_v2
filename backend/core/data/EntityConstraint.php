@@ -26,7 +26,7 @@ class EntityConstraint
 
     private function initialize_constraints($c)
     {
-        if ($c == null)
+        if ($c === null)
             return;
 
         foreach ($c as $key => $value) {
@@ -81,7 +81,7 @@ class EntityConstraint
                 $field = $constraint;
             }
 
-            if (sizeof($field) == 1)
+            if (sizeof($field) === 1)
                 $field = $field[0];
 
             $prop = $field;

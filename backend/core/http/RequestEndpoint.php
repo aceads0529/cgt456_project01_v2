@@ -2,6 +2,7 @@
 include_once __DIR__ . '\Request.php';
 include_once __DIR__ . '\Response.php';
 include_once __DIR__ . '\RequestAction.php';
+include_once __DIR__ . '\..\Debug.php';
 
 class RequestEndpoint
 {
@@ -31,8 +32,11 @@ class RequestEndpoint
     public function call($request = null)
     {
         try {
-            if ($request == null)
+            if ($request === null) {
                 $request = Request::from_global();
+            }
+
+            Debug::log(sprintf('API call to "%s/%s"', Debug::get_script_dir(), $request->get_action()));
 
             $a = $request->get_action();
 
@@ -42,11 +46,11 @@ class RequestEndpoint
                 $response = new Response(false, 'Invalid action');
             }
 
-            $response->send();
+            $response->echo();
         } catch (ResponseException $e) {
-            $e->getResponse()->send();
+            $e->getResponse()->echo();
         } catch (Exception $e) {
-            Response::error_server()->send();
+            Response::error_server()->echo();
         }
     }
 }

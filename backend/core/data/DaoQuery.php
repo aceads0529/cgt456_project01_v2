@@ -184,7 +184,7 @@ class DaoQuery
         $tables = $this->tables;
 
         foreach ($tables as $t) {
-            if (gettype($t) == 'DaoQuery') {
+            if (gettype($t) === 'DaoQuery') {
                 $query = [$t, 'compile'];
                 list($clause, $params) = $query();
                 $clauses[] = sprintf('(%s) %s', self::wrap_str($clause, '()'), $this->alias);
@@ -235,7 +235,7 @@ class DaoQuery
         foreach ($this->where as $key => $value) {
             $key = trim($key);
 
-            if ($key[0] == ':') {
+            if ($key[0] === ':') {
                 $clauses[] = $value;
             } elseif (is_array($value)) {
                 $question_marks = array_fill(0, sizeof($value), '?');
@@ -243,7 +243,7 @@ class DaoQuery
                 $clauses[] = $key . ' IN ' . self::wrap_str($question_marks, '()');
                 $params = array_merge($params, $value);
             } else {
-                if (sizeof($split = explode(' ', $key)) == 2 && $split[1] == 'LIKE') {
+                if (sizeof($split = explode(' ', $key)) === 2 && $split[1] === 'LIKE') {
                     $clauses[] = $key . ' ?';
                 } else {
                     $clauses[] = $key . ' = ?';
@@ -253,7 +253,7 @@ class DaoQuery
             }
         }
 
-        if (sizeof($clauses) == 0)
+        if (sizeof($clauses) === 0)
             $clauses = '';
         else
             $clauses = 'WHERE ' . self::wrap_str(implode(') AND (', $clauses), '()');

@@ -6,6 +6,9 @@ $api = new RequestEndpoint;
 $api->action('login')
     ->requires('login', 'password')
     ->callback(function ($request) {
+        $dao = EmployerDao::get_instance();
+        $userDao = UserDao::get_instance();
+
         /** @var Request $request */
         $login = $request->get_param('login');
         $password = $request->get_param('password');
@@ -34,18 +37,14 @@ $api->action('register')
 
 $api->action('select', function ($request) {
     /** @var Request $request */
-    if ($user = AuthService::get_active_user()) {
-        $c = $user->get_constraints();
 
-        $query = User::from_request($request);
-        $c->filter($query);
+    $user = AuthService::get_active_user_or_deny();
 
-        $results = User::dao()->select($query);
+    $query = User::from_request($request);
+    $user->get_constraints()->filter($query);
 
-        return new Response(true, 'Users selected', $results);
-    } else {
-        return Response::error_permission();
-    }
+    $results = User::dao()->select($query);
+    return new Response(true, 'Users selected', $results);
 });
 
 $api->action('active', function ($request) {

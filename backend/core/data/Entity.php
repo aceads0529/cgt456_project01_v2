@@ -4,6 +4,7 @@ include_once __DIR__ . '\EntityDao.php';
 abstract class Entity implements ArrayAccess
 {
     public $id;
+    private static $dao;
 
     public function __construct($arr = null)
     {
@@ -24,7 +25,18 @@ abstract class Entity implements ArrayAccess
     /**
      * @return EntityDao
      */
-    public static function dao()
+    public static final function dao()
+    {
+        if (static::$dao === null) {
+            static::$dao = static::getDao();
+        }
+        return static::$dao;
+    }
+
+    /**
+     * @return EntityDao
+     */
+    protected static function getDao()
     {
         $class = get_called_class();
         return new EntityDao(strtolower($class), $class);
@@ -66,7 +78,7 @@ abstract class Entity implements ArrayAccess
         $result = array();
 
         foreach ($this as $key => $value) {
-            if ($value == null)
+            if ($value === null)
                 continue;
 
             if (is_array($value) && !$allow_arr)

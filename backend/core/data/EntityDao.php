@@ -3,90 +3,81 @@ include_once __DIR__ . '\Entity.php';
 include_once __DIR__ . '\DaoConnection.php';
 include_once __DIR__ . '\DaoQuery.php';
 
-class EntityDao
+abstract class EntityDao
 {
-    private $table, $class;
-    protected $conn;
+    private static $instance;
 
     /**
-     * EntityDao constructor.
-     * @param string $table
-     * @param string $class
+     * @return EntityDao
      */
-    public function __construct($table, $class)
+    public static function get_instance()
     {
-        $this->table = $table;
-        $this->class = $class;
+        if (static::$instance === null) {
+            $class = get_called_class();
+            static::$instance = new $class();
+        }
+        return static::$instance;
+    }
+
+    protected $conn;
+
+    public function __construct()
+    {
         $this->conn = DaoConnection::default_conn();
     }
 
     /**
      * @param Entity $entity
-     * @return bool|array
+     * @param array $row
+     * @return Entity
      */
-    function select($entity)
+    protected function populate_entity(&$entity, $row)
     {
-        $rows = $this->conn->execute(
-            (new DaoQuery(DaoQuery::SELECT))
-                ->tables($this->table)
-                ->where($entity)
-        );
-
-        if ($rows) {
-            foreach ($rows as &$row) {
-                $row = new $this->class($row);
+        foreach ($row as $key => $value) {
+            if (property_exists($entity, $key)) {
+                $entity->{$key} = $value;
             }
         }
-
-        return $rows;
-    }
-
-    /**
-     * @param string $prop
-     * @param mixed $value
-     * @return bool|array
-     */
-    function select_by($prop, $value)
-    {
-        $obj = new $this->class([$prop => $value]);
-        return $this->select($obj);
+        return $entity;
     }
 
     /**
      * @param Entity $entity
-     * @return bool
+     * @return array
      */
-    public function insert(&$entity)
+    protected function filter_entity($entity)
     {
-        $cols = array_keys($entity->to_db_array(false));
+        $result = array();
+        foreach ($entity as $key => $value) {
+            if ($entity->{$key} !== null) {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
+    }
 
-        $this->conn->execute(
-            (new DaoQuery(DaoQuery::INSERT))
-                ->tables($this->table)
-                ->columns($cols)
-                ->values($entity)
-        );
-
-        if ($this->conn->affected_rows() > 0) {
-            $entity->id = $this->conn->insert_id();
-            return true;
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return string
+     */
+    protected function where($key, $value)
+    {
+        if (is_array($value)) {
+            $qmarks = array_fill(0, sizeof($value), '?');
+            $qmakrs = implode(',', $qmarks);
+            return sprintf('%s IN (%s)', $key, $qmarks);
         } else {
-            return false;
+            return sprintf('%s = ?', $key);
         }
     }
 
-    /**
-     * @param Entity $entity
-     * @return bool
-     */
-    public function delete($entity)
+    protected function set($values)
     {
-        $this->conn->execute(
-            (new DaoQuery(DaoQuery::DELETE))
-                ->tables($this->table)
-                ->where($entity)
-        );
-
-        return $this->conn->affected_rows() > 0;
+        $clauses = array();
+        foreach ($values as $key => $value) {
+            $clauses[] = $key . ' = ?';
+        }
+        return implode(', ', $clauses);
     }
 }

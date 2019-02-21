@@ -56,7 +56,7 @@ class Request
      */
     public function get_params(...$keys)
     {
-        if (sizeof($keys) == 0)
+        if (sizeof($keys) === 0)
             return $this->data;
 
         $result = array();

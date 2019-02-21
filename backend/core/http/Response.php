@@ -20,7 +20,7 @@ class Response
     /**
      * @param bool $exit
      */
-    public function send($exit = true)
+    public function echo($exit = true)
     {
         header('Content-Type: application/json');
         $body = Response::deep_json_encode($this);
