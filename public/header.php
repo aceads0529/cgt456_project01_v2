@@ -37,6 +37,7 @@
     <ul>
         <li><a href="auth/login.php">Login</a></li>
         <li><a href="auth/register.php">Register</a></li>
+        <li><a href="student/index.php">Student Portal</a></li>
     </ul>
 </nav>
 

@@ -9,23 +9,93 @@ $api->action('search')
         /** @var Request $request */
 
         $dao = new EmployerDao;
-        $employers = $dao->search($request->get_param('name'));
+        $employers = $dao->search($request->get_data('name'));
 
         return new Response(true, '', $employers);
     });
 
-$api->action('session')
-    ->requires('employerId', 'jobTitle', 'startDate', 'endDate', 'offsite', 'totalHours', 'payRate')
+$api->action('student-get')
+    ->requires('workSessionId')
     ->callback(function ($request) {
+        /** @var Request $request */
+
         $user = AuthService::get_active_user_or_deny();
 
-        $session = WorkSession::from_request($request);
-        $session->student_id = $user->id;
-        if (WorkSession::dao()->insert($session)) {
-            return new Response('Work session created successfully', ['id' => $session->id]);
+        if (($session = WorkSessionDao::get_instance()->select($request->get_data('workSessionId')))
+            && sizeof($session) > 0) {
+
+            $session = $session[0];
+
+            if ($session->student_id !== $user->id)
+                return Response::error_permission();
+
+            $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
+            $prompts = StudentFormDao::get_instance()->select_form($session->id, $user->id);
+
+            return new Response(true, 'Form values retrieved', ['employer' => $employer, 'session' => $session, 'prompts' => $prompts]);
         } else {
-            return new Response(false, 'Work session not created');
+            return new Response(false, 'Session not found');
         }
+    });
+
+$api->action('student')
+    ->requires('employer', 'session', 'prompts')
+    ->callback(function ($request) {
+        /** @var Request $request */
+
+        $user = AuthService::get_active_user_or_deny();
+        $employer = $request->get_data('employer');
+
+        $employer = new Employer(
+            $employer['id'] ? (int)$employer['id'] : null,
+            $employer['name'],
+            $employer['address'],
+            $employer['cgtFields']);
+
+        if ($employer->id === null) {
+            EmployerDao::get_instance()->insert($employer);
+        }
+        $session = $request->get_data('session');
+        $prompts = $request->get_data('prompts');
+
+        $session = new WorkSession(
+            $session['id'] !== null && $session['id'] !== '' ? (int)$session['id'] : null,
+            $user->id,
+            null,
+            $employer->id,
+            $session['jobTitle'],
+            $session['address'],
+            $session['startDate'],
+            $session['endDate'],
+            (int)$prompts['offsite'],
+            (int)$session['compensation']['totalHours'],
+            (float)$session['compensation']['payRate']);
+
+        if ($session->id === null) {
+            WorkSessionDao::get_instance()->insert($session);
+        } else {
+            WorkSessionDao::get_instance()->update($session);
+        }
+
+        $prompts = new StudentForm(
+            $session->id,
+            $user->id,
+            $prompts['rating'] !== null ? (int)$prompts['rating'] : null,
+            $prompts['activities'],
+            $prompts['relevantWork'],
+            $prompts['difficulties'],
+            $prompts['relatedToMajor'],
+            $prompts['wantedToLearn'],
+            $prompts['cgtChangedMind'],
+            $prompts['providedContacts']);
+
+        if (StudentFormDao::get_instance()->exists($prompts->work_session_id, $prompts->student_id)) {
+            StudentFormDao::get_instance()->update($prompts);
+        } else {
+            StudentFormDao::get_instance()->insert($prompts);
+        }
+
+        return new Response(true, 'Form submitted successfully');
     });
 
 $api->call();

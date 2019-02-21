@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '\..\includes.php';
 
-class OptionDao extends EntityDao
+class OptionDao extends Dao
 {
     protected static $instance;
 
@@ -20,6 +20,14 @@ class OptionDao extends EntityDao
      */
     public function get_cgt_fields()
     {
-        return $this->conn->query('SELECT * FROM cgt_field');
+        return $this->conn->query('SELECT id, label FROM cgt_field ORDER BY sort_order ASC');
+    }
+
+    /**
+     * @return array|bool
+     */
+    public function get_financial_asst()
+    {
+        return $this->conn->query('SELECT id, label FROM financial_asst ORDER BY sort_order ASC');
     }
 }

@@ -74,6 +74,10 @@ input[type=text], textarea {
     list-style: none;
 }
 
+.hide {
+    display: none !important;
+}
+
 .search-results.show {
     display: block;
 }
@@ -89,6 +93,17 @@ input[type=text], textarea {
 
 .search-results li:hover {
     background: #ffdf99;
+}
+
+.form-button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
+.form-button-row button {
+    flex: 0 0 auto;
+    margin-left: 20px;
 }
 
 button {

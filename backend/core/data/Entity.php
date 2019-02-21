@@ -4,42 +4,9 @@ include_once __DIR__ . '\EntityDao.php';
 abstract class Entity implements ArrayAccess
 {
     public $id;
-    private static $dao;
-
-    public function __construct($arr = null)
-    {
-        if ($arr) {
-            foreach ($arr as $key => $value) {
-                if (property_exists($this, $key))
-                    $this->$key = $value;
-            }
-
-            $this->sanitize();
-        }
-    }
 
     public function sanitize()
     {
-    }
-
-    /**
-     * @return EntityDao
-     */
-    public static final function dao()
-    {
-        if (static::$dao === null) {
-            static::$dao = static::getDao();
-        }
-        return static::$dao;
-    }
-
-    /**
-     * @return EntityDao
-     */
-    protected static function getDao()
-    {
-        $class = get_called_class();
-        return new EntityDao(strtolower($class), $class);
     }
 
     /**
@@ -104,14 +71,37 @@ abstract class Entity implements ArrayAccess
      */
     public static function from_request($request)
     {
+        return self::from_array($request->data);
+    }
+
+    /**
+     * @param array $arr
+     * @return static
+     */
+    public static function from_array($arr)
+    {
         $result = self::create_instance();
-
-        foreach ($result as $key => &$value) {
-            $key = self::to_camel_case($key);
-            $value = $request->get_param($key);
+        foreach ($arr as $key => $value) {
+            $key = self::to_snake_case($key);
+            if (property_exists($result, $key)) {
+                $result->{$key} = $value;
+            }
         }
+        return $result;
+    }
 
-        $result->sanitize();
+    /**
+     * @param bool $keep_empty
+     * @return array
+     */
+    public function to_array($keep_empty = false)
+    {
+        $result = array();
+        foreach ($this as $key => $value) {
+            if ($keep_empty || $value !== null && $value !== '') {
+                $result[$key] = $value;
+            }
+        }
         return $result;
     }
 
@@ -132,6 +122,17 @@ abstract class Entity implements ArrayAccess
     {
         return preg_replace_callback('/[a-z]_[a-z]/', function ($matches) {
             return $matches[0][0] . strtoupper($matches[0][2]);
+        }, $str);
+    }
+
+    /**
+     * @param string $str
+     * @return string
+     */
+    public static function to_snake_case($str)
+    {
+        return preg_replace_callback('/[a-z][A-Z]/', function ($matches) {
+            return $matches[0][0] . '_' . strtolower($matches[0][1]);
         }, $str);
     }
 

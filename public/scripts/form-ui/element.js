@@ -24,14 +24,19 @@ class Element {
         });
     }
 
-    load() {
-        const name = this.constructor.name;
-        if (Element.templates.hasOwnProperty(name)) {
-            this.html = $(this._formatTemplate(Element.templates[name]));
-            this._prepareTemplate();
-        } else {
-            this.html = $('<div></div>');
+    getTemplate() {
+        let proto = Object.getPrototypeOf(this);
+        while (!Element.templates.hasOwnProperty(proto.constructor.name)) {
+            proto = Object.getPrototypeOf(proto);
         }
+        return Element.templates[proto.constructor.name] || '<div></div>';
+    }
+
+    load() {
+        let template = this.getTemplate();
+        template = this._formatTemplate(template);
+        this.html = $(template);
+        this._prepareTemplate();
     }
 
     value(v) {

@@ -10,9 +10,7 @@ class AuthService
      */
     public static function login($login, $password)
     {
-        $dao = UserDao::get_instance();
-
-        if ($user = $dao->select_login($login)) {
+        if ($user = UserDao::get_instance()->select_login($login)) {
             if ($user->try_password($password)) {
                 self::set_active_user($user);
                 return true;
@@ -34,13 +32,14 @@ class AuthService
 
     /**
      * @return User
+     * @throws ResponseException
      */
     public static function get_active_user_or_deny()
     {
         if ($user = SessionService::get('auth_active_user')) {
             return $user;
         } else {
-            Response::error_permission()->echo(true);
+            throw new ResponseException(Response::error_permission());
         }
     }
 
@@ -72,17 +71,17 @@ class AuthService
      */
     public static function register($user, $password)
     {
-        $dao = UserGroup::dao();
+        $dao = UserDao::get_instance();
 
-        if (!$dao->select_by('id', $user->user_group_id))
-            throw new ResponseException(new Response(false, 'User group doesn\'t exist'));
-
-        $dao = User::dao();
-
-        if ($dao->select_by('login', $user->login))
+        if ($dao->select_login($user->login)) {
             throw new ResponseException(new Response(false, 'Login already exists'));
+        }
 
         $user->set_password($password);
-        return $dao->insert($user);
+
+        $success = $dao->insert($user);
+        AuthService::login($user->login, $password);
+
+        return $success;
     }
 }

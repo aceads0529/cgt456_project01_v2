@@ -24,7 +24,7 @@ class UserDao extends EntityDao
         if ($rows = $this->conn->query('SELECT * FROM user WHERE ' . $this->where('id', $ids), $ids)) {
             $result = array();
             foreach ($rows as $row) {
-                $result[] = $this->populate_entity(new User(), $row);
+                $result[] = User::from_array($row);
             }
             return $result;
         } else {
@@ -51,7 +51,7 @@ class UserDao extends EntityDao
      */
     public function update($entity)
     {
-        $values = $this->filter_entity($entity);
+        $values = $entity->to_array();
         unset($values['id']);
 
         $query_str = 'UPDATE user SET ' . $this->set($values) . ' WHERE id = ?';
@@ -79,10 +79,7 @@ class UserDao extends EntityDao
     {
         if (($rows = $this->conn->query('SELECT * FROM user WHERE login = ?', [$login]))
             && sizeof($rows) > 0) {
-            /** @var User $result */
-            $result = new User();
-            $result = $this->populate_entity($result, $rows[0]);
-            return $result;
+            return User::from_array($rows[0]);
         } else {
             return false;
         }

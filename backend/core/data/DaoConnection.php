@@ -26,17 +26,6 @@ class DaoConnection
     }
 
     /**
-     * @param DaoQuery $query
-     * @param bool $flatten
-     * @return array|bool
-     */
-    public function execute($query, $flatten = false)
-    {
-        list($query_str, $params) = $query->compile();
-        return $this->query($query_str, $params, $flatten);
-    }
-
-    /**
      * @param string $query_str
      * @param array $params
      * @param bool $flatten

@@ -2,7 +2,7 @@
 
 class Request
 {
-    private $action, $data;
+    public $action, $data;
 
     /**
      * Request constructor.
@@ -45,7 +45,7 @@ class Request
      * @param string $key
      * @return mixed
      */
-    public function get_param($key)
+    public function get_data($key)
     {
         return isset($this->data[$key]) ? $this->data[$key] : null;
     }
@@ -56,15 +56,10 @@ class Request
      */
     public function get_params(...$keys)
     {
-        if (sizeof($keys) === 0)
-            return $this->data;
-
         $result = array();
-
-        foreach ($keys as $k) {
-            $result[$k] = $this->get_param($k);
+        foreach ($keys as $key) {
+            $result[$key] = isset($this->data[$key]) ? $this->data[$key] : null;
         }
-
         return $result;
     }
 }

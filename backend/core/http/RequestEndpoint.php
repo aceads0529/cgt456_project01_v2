@@ -36,9 +36,8 @@ class RequestEndpoint
                 $request = Request::from_global();
             }
 
-            Debug::log(sprintf('API call to "%s/%s"', Debug::get_script_dir(), $request->get_action()));
-
-            $a = $request->get_action();
+            $a = $request->action;
+            Debug::log(sprintf('API call to "%s/%s"', Debug::get_script_dir(), $a));
 
             if (isset($this->actions[$a])) {
                 $response = $this->actions[$a]($request);

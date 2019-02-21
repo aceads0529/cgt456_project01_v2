@@ -6,12 +6,10 @@ $api = new RequestEndpoint;
 $api->action('login')
     ->requires('login', 'password')
     ->callback(function ($request) {
-        $dao = EmployerDao::get_instance();
-        $userDao = UserDao::get_instance();
-
         /** @var Request $request */
-        $login = $request->get_param('login');
-        $password = $request->get_param('password');
+
+        $login = $request->get_data('login');
+        $password = $request->get_data('password');
 
         if (AuthService::login($login, $password)) {
             return new Response(true, 'Login successful');
@@ -29,7 +27,7 @@ $api->action('register')
     ->callback(function ($request) {
         /** @var Request $request */
         $user = User::from_request($request);
-        $success = AuthService::register($user, $request->get_param('password'));
+        $success = AuthService::register($user, $request->get_data('password'));
         return $success
             ? new Response(true, 'User successfully registered')
             : new Response(false, 'User not registered');

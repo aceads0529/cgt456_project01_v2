@@ -22,25 +22,21 @@ class EmployerDao extends EntityDao
     public function select(...$ids)
     {
         $query_str =
-            'SELECT E.*, GROUP_CONCAT(EF.cgt_field_id) as cgt_field_ids' .
-            'FROM employer E, employer_cgt_fields EF' .
+            'SELECT E.*, GROUP_CONCAT(EF.cgt_field_id) as cgt_field_ids ' .
+            'FROM employer E, employer_cgt_fields EF ' .
             'WHERE E.id = EF.employer_id AND ' . $this->where('E.id', $ids) .
-            'GROUP BY E.id';
+            ' GROUP BY E.id';
 
         if ($rows = $this->conn->query($query_str, $ids)) {
             $result = array();
             foreach ($rows as $row) {
-                $result[] = $this->create_from_row($row);
+                $row['cgt_field_ids'] = explode(',', $row['cgt_field_ids']);
+                $result[] = Employer::from_array($row);
             }
             return $result;
         } else {
             return false;
         }
-    }
-
-    private function create_from_row($row)
-    {
-        return new Employer($row['id'], $row['name'], $row['address'], explode(',', $row['cgt_field_ids']));
     }
 
     /**
@@ -72,7 +68,7 @@ class EmployerDao extends EntityDao
      */
     public function update($entity)
     {
-        $values = $this->filter_entity($entity);
+        $values = $entity->to_array();
         unset($values['id']);
 
         $query_str = sprintf('UPDATE employer SET %s WHERE id = ?', $this->set($values));
@@ -109,7 +105,8 @@ class EmployerDao extends EntityDao
         if ($rows = $this->conn->query($query_str, [$name])) {
             $result = array();
             foreach ($rows as $row) {
-                $result[] = $this->create_from_row($row);
+                $row['cgt_field_ids'] = explode(',', $row['cgt_field_ids']);
+                $result[] = Employer::from_array($row);
             }
             return $result;
         } else {

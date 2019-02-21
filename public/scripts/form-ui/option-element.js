@@ -20,14 +20,18 @@ class OptionElement extends Element {
     value(v) {
         const result = [];
         for (const option of this.options) {
-            if (v !== undefined && v === option.value) {
+            if (v !== undefined && (v === option.value || Array.isArray(v) && v.includes(option.value))) {
                 option.html.prop("checked", true);
-                return this;
             } else if (option.html.prop("checked")) {
                 result.push(option.value);
             }
         }
-        return result;
+
+        if (v !== undefined) {
+            return this;
+        } else {
+            return this.type === "radio" ? result[0] || null : result;
+        }
     }
 
     clear() {
@@ -39,7 +43,9 @@ class OptionElement extends Element {
     setOptions(options) {
         this.options = options;
 
-        for (const option of this.options) {
+        for (let i = 0; i < this.options.length; i++) {
+            const option = this.options[i];
+
             const element = this.itemTemplate.clone();
             this.itemContainer.append(element);
 
@@ -50,7 +56,44 @@ class OptionElement extends Element {
             label.text(option.name);
 
             input.attr('id', this.id + '-' + option.name);
-            option.html = input;
+            this.options[i]['html'] = input;
         }
+    }
+}
+
+class RatingElement extends OptionElement {
+    constructor(id, label, required = true) {
+        super(id, label, [
+            {
+                name: "Very good",
+                value: 4
+            }, {
+                name: "Good",
+                value: 3
+            }, {
+                name: "Okay",
+                value: 2
+            }, {
+                name: "Bad",
+                value: 1
+            }, {
+                name: "Very bad",
+                value: 0
+            }
+        ], "radio", required);
+    }
+}
+
+class YesNoElement extends OptionElement {
+    constructor(id, label, required = true) {
+        super(id, label, [
+            {
+                name: "Yes",
+                value: 1
+            }, {
+                name: "No",
+                value: 0
+            }
+        ], "radio", required);
     }
 }

@@ -46,7 +46,7 @@
 <button data-button id="%id%" class="form-button">%label%</button>
 
 @Template RowElement
-<div data-row class="form-row"></div>
+<div data-row class="form-button-row"></div>
 
 @Template ReadonlyElement
 <input type="hidden"/>
