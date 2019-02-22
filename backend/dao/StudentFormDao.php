@@ -90,12 +90,12 @@ class StudentFormDao extends EntityDao
     }
 
     /**
-     * @param int[]|string[] ...$ids
+     * @param int|string ...$ids
      * @return boolean
      */
     function delete(...$ids)
     {
-        return $this->conn->query(sprintf('DELETE FROM form_student WHERE %s', $this->where('id', $ids)), $ids)
+        return $this->conn->query(sprintf('DELETE FROM form_student WHERE %s', $this->where('work_session_id', $ids)), $ids)
             && $this->conn->affected_rows() > 0;
     }
 }

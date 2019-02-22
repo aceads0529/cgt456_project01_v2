@@ -25,7 +25,13 @@ include_once __DIR__ . '\entities\StudentForm.php';
 include_once __DIR__ . '\entities\User.php';
 include_once __DIR__ . '\entities\WorkSession.php';
 
+include_once __DIR__ . '\lib\PHP Mailer\Exception.php';
+include_once __DIR__ . '\lib\PHP Mailer\OAuth.php';
+include_once __DIR__ . '\lib\PHP Mailer\PHPMailer.php';
+include_once __DIR__ . '\lib\PHP Mailer\POP3.php';
+include_once __DIR__ . '\lib\PHP Mailer\SMTP.php';
+
 include_once __DIR__ . '\services\AuthService.php';
+include_once __DIR__ . '\services\MailService.php';
 include_once __DIR__ . '\services\SessionService.php';
 
-xdebug_start_code_coverage();

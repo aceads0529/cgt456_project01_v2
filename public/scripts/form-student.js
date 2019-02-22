@@ -11,7 +11,7 @@ function onSubmit() {
         prompts: forms[2].value()
     };
 
-    $api.call("submit/student", data, response => {
+    $api.call("student/form", data, response => {
         window.location.replace("student/index.php");
     });
 }
@@ -44,7 +44,7 @@ function createEmployerForm() {
     });
 
     employerName.onChange((value) => {
-        $api.call("submit/search", {name: value}, (response) => {
+        $api.call("search/employer", {search: value}, (response) => {
             employerName.updateItems(response.data);
         });
     }).onSelect((item) => {
@@ -143,7 +143,7 @@ $form.ready(function () {
     const formId = url.searchParams.get("fid") !== null ? parseInt(url.searchParams.get("fid")) : null;
 
     if (sessionId !== null) {
-        $api.call("submit/student-get", {workSessionId: sessionId}, response => {
+        $api.call("student/form-get", {workSessionId: sessionId}, response => {
             if (response.success) {
                 populateForm(response.data);
             }

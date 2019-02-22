@@ -22,6 +22,11 @@ class AuthService
         }
     }
 
+    public static function logout()
+    {
+        SessionService::remove('auth_active_user');
+    }
+
     /**
      * @return User
      */

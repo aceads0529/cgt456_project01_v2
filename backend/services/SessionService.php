@@ -25,6 +25,19 @@ class SessionService
         session_write_close();
     }
 
+    /**
+     * @param string $id
+     * @return mixed
+     */
+    public static function remove($id)
+    {
+        self::safe_session_start();
+        $value = self::get($id);
+        unset($_SESSION[$id]);
+        session_write_close();
+        return $value;
+    }
+
     private static function safe_session_start()
     {
         if (session_status() != PHP_SESSION_ACTIVE) {

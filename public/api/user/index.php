@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '\..\includes.php';
+include_once __DIR__ . '\..\..\includes.php';
 
 $api = new RequestEndpoint;
 
@@ -12,13 +12,14 @@ $api->action('login')
         $password = $request->get_data('password');
 
         if (AuthService::login($login, $password)) {
-            return new Response(true, 'Login successful');
+            return new Response(true, 'Login successful', ['redirect' => SessionService::remove('auth_redirect')]);
         } else {
             return new Response(false, 'Username and password don\'t match');
         }
     });
 
 $api->action('logout', function ($request) {
+    AuthService::logout();
     return new Response(true, 'Logout successful');
 });
 

@@ -1,0 +1,13 @@
+Student:
+
+- Listing of work sessions
+  - Company name
+  - Time (just year?)
+  - Job title
+  - Hours worked
+  - Total hours across all work sessions
+  - supervisor email
+  - Links to add/edit/delete
+  - Send invitation
+  - Approval by advisor
+

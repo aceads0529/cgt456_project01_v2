@@ -1,20 +1,9 @@
 <?php
-include_once __DIR__ . '\..\includes.php';
+include_once __DIR__ . '\..\..\includes.php';
 
 $api = new RequestEndpoint();
 
-$api->action('search')
-    ->requires('name')
-    ->callback(function ($request) {
-        /** @var Request $request */
-
-        $dao = new EmployerDao;
-        $employers = $dao->search($request->get_data('name'));
-
-        return new Response(true, '', $employers);
-    });
-
-$api->action('student-get')
+$api->action('form-get')
     ->requires('workSessionId')
     ->callback(function ($request) {
         /** @var Request $request */
@@ -38,7 +27,29 @@ $api->action('student-get')
         }
     });
 
-$api->action('student')
+$api->action('form-delete')
+    ->requires('workSessionId')
+    ->callback(function ($request) {
+        /** @var Request $request */
+
+        $user = AuthService::get_active_user_or_deny();
+        if (($session = WorkSessionDao::get_instance()->select($request->get_data('workSessionId')))
+            && sizeof($session) > 0) {
+            $session = $session[0];
+
+            if ($session->student_id !== $user->id) {
+                return Response::error_permission();
+            }
+
+            return WorkSessionDao::get_instance()->delete($session->id)
+            && StudentFormDao::get_instance()->delete($session->id)
+                ? new Response(true, 'Session deleted')
+                : new Response(false, 'Session not deleted');
+
+        }
+    });
+
+$api->action('form')
     ->requires('employer', 'session', 'prompts')
     ->callback(function ($request) {
         /** @var Request $request */

@@ -17,7 +17,7 @@ class EmployerDao extends EntityDao
 
     /**
      * @param int[]|string[] $ids
-     * @return array|bool
+     * @return User[]|bool
      */
     public function select(...$ids)
     {

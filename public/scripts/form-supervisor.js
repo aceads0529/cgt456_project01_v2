@@ -6,14 +6,11 @@ function showForm(form) {
 
 function onSubmit() {
     const data = {...forms[0].value(), ...forms[1].value(), ...forms[2].value()};
-
-    $api.call("submit/supervisor", data, response => {
-        window.location.replace("supervisor/index.php");
-    });
+    console.log(data);
 }
 
 function createSupervisorOne() {
-    const form = new GroupElement("one", "One")
+    const form = new GroupElement("one", "Intern Evaluation (1/3)")
         .append(new RatingElement("dependable", "Performs in a dependable manner"))
         .append(new RatingElement("cooperative", "Cooperates with co-workers and supervisors"))
         .append(new RatingElement("interested", "Shows interest in work"))
@@ -28,7 +25,7 @@ function createSupervisorOne() {
 }
 
 function createSupervisorTwo() {
-    const form = new GroupElement("two", "Two")
+    const form = new GroupElement("two", "Intern Evaluation (2/3)")
         .append(new RatingElement("criticism", "Accepts criticism"))
         .append(new RatingElement("organization", "Demonstrates organizational skills"))
         .append(new RatingElement("techKnowledge", "Demonstrates technical knowledge and expertise"))
@@ -38,13 +35,13 @@ function createSupervisorTwo() {
         .append(new RatingElement("selfReliance", "Is self-reliant"))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(0)))
-            .append(new ButtonElement("next", "Next", () => showForm(1))));
+            .append(new ButtonElement("next", "Next", () => showForm(2))));
 
     return form;
 }
 
 function createSupervisorThree() {
-    const form = new GroupElement("three", "Three")
+    const form = new GroupElement("three", "Intern Evaluation (3/3)")
         .append(new RatingElement("communication", "Communicates well"))
         .append(new RatingElement("writing", "Writes effectively"))
         .append(new RatingElement("profAttitude", "Has a professional attitude"))
@@ -65,6 +62,11 @@ $form.ready(function () {
         createSupervisorOne(),
         createSupervisorTwo(),
         createSupervisorThree());
+
+    for (const f of forms) {
+        host.append(f.html);
+    }
+    showForm(0);
 
     host.submit(e => {
         e.preventDefault()

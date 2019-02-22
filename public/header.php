@@ -1,3 +1,5 @@
+<?php include_once __DIR__ . '\includes.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -35,10 +37,13 @@
 
 <nav>
     <ul>
-        <li><a href="auth/login.php">Login</a></li>
+        <?php if (!AuthService::get_active_user()): ?>
+            <li><a href="auth/login.php">Login</a></li>
+        <?php else: ?>
+            <li><a href="auth/logout.php">Logout</a></li>
+        <?php endif; ?>
         <li><a href="auth/register.php">Register</a></li>
         <li><a href="student/index.php">Student Portal</a></li>
     </ul>
 </nav>
 
-<?php include_once __DIR__ . '\..\backend\includes.php'; ?>

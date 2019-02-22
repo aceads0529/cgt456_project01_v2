@@ -16,7 +16,6 @@ if ($scripts) {
     }
 }
 
-fwrite($file, 'xdebug_start_code_coverage();' . PHP_EOL);
 fclose($file);
 
 function get_php_files($root = '')
