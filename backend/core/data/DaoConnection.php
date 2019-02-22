@@ -22,7 +22,7 @@ class DaoConnection
      */
     public static function default_conn()
     {
-        return new DaoConnection('localhost', 'root', '', 'cgt456_project01');
+        return new DaoConnection('www.aaroneads.com:3306', 'admin', 'Ascii32', 'cgt456_project01');
     }
 
     /**
