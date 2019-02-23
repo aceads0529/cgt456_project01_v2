@@ -66,6 +66,7 @@ $api->action('form')
         if ($employer->id === null) {
             EmployerDao::get_instance()->insert($employer);
         }
+
         $session = $request->get_data('session');
         $prompts = $request->get_data('prompts');
 
@@ -105,6 +106,11 @@ $api->action('form')
         } else {
             StudentFormDao::get_instance()->insert($prompts);
         }
+
+        $guest_email = $request->get_data('employer')['email'];
+        $guest_id = AuthService::register_guest($guest_email, '/auth/login.php');
+
+        MailService::email($guest_email, 'Supervisor Survey', 'Please take the time to fill out this survey: <a href="p1.cgt456.localhost/invite.php?id=' . $guest_id . '">Purdue Polytech Internship Program</a>"');
 
         return new Response(true, 'Form submitted successfully');
     });

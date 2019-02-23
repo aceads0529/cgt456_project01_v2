@@ -24,7 +24,7 @@ class AuthService
 
     public static function logout()
     {
-        SessionService::remove('auth_active_user');
+        SessionService::reset();
     }
 
     /**
@@ -88,5 +88,21 @@ class AuthService
         AuthService::login($user->login, $password);
 
         return $success;
+    }
+
+    /**
+     * @param string $email
+     * @param string $redirect_url
+     * @return bool|int|string
+     */
+    public static function register_guest($email, $redirect_url)
+    {
+        $conn = DaoConnection::default_conn();
+
+        if ($conn->query('INSERT IGNORE INTO guest (email, redirect_url) VALUES (?, ?)', [$email, $redirect_url])) {
+            return $conn->insert_id();
+        } else {
+            return false;
+        }
     }
 }

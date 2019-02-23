@@ -38,6 +38,15 @@ class SessionService
         return $value;
     }
 
+    public static function reset()
+    {
+        self::safe_session_start();
+        foreach ($_SESSION as $key => $value) {
+            unset($_SESSION[$key]);
+        }
+        session_write_close();
+    }
+
     private static function safe_session_start()
     {
         if (session_status() != PHP_SESSION_ACTIVE) {
