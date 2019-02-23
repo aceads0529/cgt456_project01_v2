@@ -20,7 +20,7 @@ class Dao
 
     public function __construct()
     {
-        $this->conn = DaoConnection::default_conn();
+        $this->conn = DaoConnection::default_host();
     }
 
     /**

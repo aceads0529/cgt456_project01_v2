@@ -97,7 +97,7 @@ class AuthService
      */
     public static function register_guest($email, $redirect_url)
     {
-        $conn = DaoConnection::default_conn();
+        $conn = DaoConnection::default_host();
 
         if ($conn->query('INSERT IGNORE INTO guest (email, redirect_url) VALUES (?, ?)', [$email, $redirect_url])) {
             return $conn->insert_id();
