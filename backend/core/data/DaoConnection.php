@@ -20,18 +20,18 @@ class DaoConnection
     /**
      * @return DaoConnection
      */
-    public static function default_conn()
+    public static function default_host()
     {
-        return new DaoConnection('www.aaroneads.com:3306', 'admin', 'Ascii32', 'cgt456_project01');
+        include __DIR__ . '\..\..\environment.php';
+        return new DaoConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     }
 
     /**
      * @param string $query_str
      * @param array $params
-     * @param bool $flatten
      * @return bool|array
      */
-    public function query($query_str, $params = null, $flatten = false)
+    public function query($query_str, $params = null)
     {
         $this->affected_rows = 0;
         $stmt = $this->conn->prepare($query_str);
@@ -76,10 +76,6 @@ class DaoConnection
 
             while ($row = $result->fetch_assoc()) {
                 $rows[] = $row;
-            }
-
-            if ($flatten === true) {
-                $rows = DaoQuery::array_flatten($rows);
             }
 
             return $rows;

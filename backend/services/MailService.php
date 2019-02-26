@@ -37,9 +37,7 @@ class MailService
         $mail->Subject = $subject;
 
         $mail->isHTML(true);
-        $mail->Body = `<a href="#"></a>`;
-
-        echo exec('\..\..\email\invite_supervisor.php');
+        $mail->Body = $body;
 
         try {
             if ($mail->send()) {
