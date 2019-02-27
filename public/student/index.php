@@ -9,6 +9,9 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 
     <table>
         <thead>
+		<tr>
+			<th><a href="form/student.php">+ Create new</a></th>
+		</tr>
         <tr>
             <th>Start date</th>
             <th>End date</th>
@@ -17,22 +20,36 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
             <th>Company name</th>
             <th></th>
             <th></th>
+			<th></th>
         </tr>
         </thead>
         <tbody>
-        <?php if ($sessions): foreach ($sessions as $session):
+        <?php if ($sessions): 
+			$total_hours = 0;
+			foreach ($sessions as $session):
             $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
             ?>
             <tr>
                 <td><?php echo $session->start_date; ?></td>
                 <td><?php echo $session->end_date; ?></td>
+                <td><?php echo $employer->name; ?></td>
                 <td><?php echo $session->job_title; ?></td>
                 <td><?php echo $session->total_hours; ?></td>
-                <td><?php echo $employer->name; ?></td>
+				<td><a href="form/student.php?sid=<?php echo $session->id; ?>">[view]</a></td>
                 <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a></td>
                 <td><a onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a></td>
             </tr>
-        <?php endforeach; endif; ?>
+        <?php $total_hours += $session->total_hours; endforeach; endif; ?>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Total: <?php echo $total_hours; ?></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
         </tbody>
     </table>
 

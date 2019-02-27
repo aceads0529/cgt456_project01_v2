@@ -4,16 +4,28 @@
     box-sizing: border-box;
     color: inherit;
 }
+html {
+	/*background = gradient + image pattern combo*/
+	background-image: url(https://purdue.edu/purdue/images/templateElements/2015/stripes-tile.png);
+}
 
 body {
     font-size: 12pt;
-    font-family: 'Roboto', sans-serif;
+    font-family: myriad-pro-condensed, sans-serif;
+	font-style: normal;
     margin: 20px;
 }
 
+img {
+	width: 10%;
+}
+
 h1 {
+	width: 80%;
+	color: white;
     text-align: center;
-    margin: 50px 0;
+    margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 h2 {
@@ -21,8 +33,8 @@ h2 {
 }
 
 nav {
-    text-align: center;
-    margin: 50px 0;
+    float: left;
+    margin: 0px 50px;
 }
 
 nav ul {
@@ -31,10 +43,17 @@ nav ul {
 }
 
 nav ul li {
+    font-size: 18pt;
     padding: 10px;
+    color: white;
 }
 
 nav ul li a {
+	text-decoration: none;
+}
+
+nav ul li a:hover {
+	text-decoration: underline;
 }
 
 #page-wrapper {
@@ -44,7 +63,8 @@ nav ul li a {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+ 	background-color: #fff;
+	border-collapse: collapse;
 }
 
 table th {
@@ -61,7 +81,16 @@ thead {
     color: #fff;
 }
 
-tr:nth-child(2n) {
+thead tr {
+	background: #c28e0e;
+}
+
+tr:nth-child(3n) {
     background: #eee;
 }
 
+button#loginBtn {
+    position: absolute;
+    top: 5%;
+    right: 2%;
+}

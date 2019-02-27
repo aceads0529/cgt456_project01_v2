@@ -9,8 +9,9 @@
     <title>Login</title>
     <link href="./css/main.css" rel="stylesheet"/>
     <link href="./css/form-ui.css" rel="stylesheet"/>
-
-    <!-- jQuery (uncompressed) -->
+	<link rel="shortcut icon" type="image/ico" href="https://www.purdue.edu/purdue/images/favicon.ico">
+	<style> @import url("https://use.typekit.net/ile1hmn.css");</style>
+	<!-- jQuery (uncompressed) -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
@@ -32,18 +33,27 @@
     <script src="./scripts/api.js"></script>
 </head>
 <body>
+<div class="banner-holder">
+	<img src="https://polytechnic.purdue.edu/sites/default/files/files/PPI-Polyt-V-W-RGB.png">
+</div>	
+<div class="header">
+	<nav>
+    	<ul>
+        	<li><a href="auth/register.php">Register</a></li>
+        	<li><a href="student/index.php">Student Portal</a></li>
+    	</ul>
+	</nav>
+	
+	<h1>Polytech Internship Program</h1>
+	
+	<?php if (!AuthService::get_active_user()): ?>
+	<button id="loginBtn" style="display: none;"><a href="auth/logout.php">Logout</a></button>
+    <?php else: ?>
+	<button id="loginBtn"><a href="auth/logout.php">Logout</a></button>
+	<?php endif; ?>
+	
+</div>
 
-<h1>Polytech Internship Program</h1>
-
-<nav>
-    <ul>
-        <?php if (!AuthService::get_active_user()): ?>
-            <li><a href="auth/login.php">Login</a></li>
-        <?php else: ?>
-            <li><a href="auth/logout.php">Logout</a></li>
-        <?php endif; ?>
-        <li><a href="auth/register.php">Register</a></li>
-        <li><a href="student/index.php">Student Portal</a></li>
-    </ul>
-</nav>
+	
+	
 
