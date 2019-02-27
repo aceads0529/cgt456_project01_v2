@@ -13,20 +13,30 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 			<th><a href="form/student.php">+ Create new</a></th>
 		</tr>
         <tr>
+            <th><a href="form/student.php">+ Create new</a></th>
+        </tr>
+        <tr>
             <th>Start date</th>
             <th>End date</th>
+            <th>Company name</th>
             <th>Job title</th>
             <th>Total hours</th>
-            <th>Company name</th>
+            <th></th>
             <th></th>
             <th></th>
 			<th></th>
         </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
         <?php if ($sessions): 
 			$total_hours = 0;
 			foreach ($sessions as $session):
+=======
+        <?php if ($sessions):
+            $total_hours = 0;
+            foreach ($sessions as $session):
+>>>>>>> acc606120d3754aec571cd17943d664d5e78b73b
             $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
             ?>
             <tr>
@@ -35,6 +45,7 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
                 <td><?php echo $employer->name; ?></td>
                 <td><?php echo $session->job_title; ?></td>
                 <td><?php echo $session->total_hours; ?></td>
+<<<<<<< HEAD
 				<td><a href="form/student.php?sid=<?php echo $session->id; ?>">[view]</a></td>
                 <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a></td>
                 <td><a onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a></td>
@@ -50,7 +61,15 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 				<td></td>
 				<td></td>
 			</tr>
+=======
+                <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[view]</a></td>
+                <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a></td>
+                <td><a onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a></td>
+            </tr>
+            <?php $total_hours += $session->total_hours; endforeach; endif; ?>
+>>>>>>> acc606120d3754aec571cd17943d664d5e78b73b
         </tbody>
+        <?php echo $total_hours; ?>
     </table>
 
     <div class="form-button-row">
