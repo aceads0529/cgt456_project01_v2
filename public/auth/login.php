@@ -1,8 +1,4 @@
-<?php include '../header.php';
-
-MailService::email('aceads0529@gmail.com', 'aceads0529@gmail.com', 'Hello, world!', 'The quick brown fox jumps over the lazy dog.');
-
-?>
+<?php include '../header.php'; ?>
 
 <form id="form-login"></form>
 
