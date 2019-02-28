@@ -9,9 +9,6 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 
     <table>
         <thead>
-		<tr>
-			<th><a href="form/student.php">+ Create new</a></th>
-		</tr>
         <tr>
             <th><a href="form/student.php">+ Create new</a></th>
         </tr>
