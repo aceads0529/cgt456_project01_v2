@@ -61,6 +61,13 @@ nav ul li a:hover {
     margin: 0 auto;
 }
 
+.ribbon img {
+	width: 20%;
+	display: block;
+	margin: auto;
+	margin-bottom: 40px;
+}
+
 table {
     width: 100%;
  	background-color: #fff;
@@ -93,4 +100,10 @@ button#loginBtn {
     position: absolute;
     top: 5%;
     right: 2%;
+}
+button#loginBtn a {
+	text-decoration: none;
+}
+button#loginBtn a:hover {
+    text-decoration: underline;
 }
