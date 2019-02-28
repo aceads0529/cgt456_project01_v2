@@ -13,7 +13,9 @@ class WorkSession extends Entity
         $end_date,
         $offsite,
         $total_hours,
-        $pay_rate;
+        $pay_rate,
+        $approved,
+        $file_url;
 
     public function __construct($id = null,
                                 $student_id = null,
@@ -25,7 +27,9 @@ class WorkSession extends Entity
                                 $end_date = null,
                                 $offsite = null,
                                 $total_hours = null,
-                                $pay_rate = null)
+                                $pay_rate = null,
+                                $approved = null,
+                                $file_url = null)
     {
         $this->id = $id;
         $this->student_id = $student_id;
@@ -38,5 +42,7 @@ class WorkSession extends Entity
         $this->offsite = $offsite;
         $this->total_hours = $total_hours;
         $this->pay_rate = $pay_rate;
+        $this->approved = $approved;
+        $this->file_url = $file_url;
     }
 }

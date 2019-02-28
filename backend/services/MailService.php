@@ -21,7 +21,6 @@ class MailService
     {
         $mail = new PHPMailer;
         $mail->isSMTP();
-        $mail->SMTPDebug = 2;
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = MailService::$username;
@@ -48,6 +47,30 @@ class MailService
             }
         } catch (Exception $e) {
             Debug::log($e->getMessage(), Debug::ERROR);
+            return false;
         }
+    }
+
+    private static $template_vars = array();
+
+    /**
+     * @param string $filename
+     * @param array $vars
+     * @return string
+     */
+    public static function get_email_template($filename, $vars)
+    {
+        MailService::$template_vars = $vars;
+
+        $var = function ($key) {
+            return isset(MailService::$template_vars[$key]) ? MailService::$template_vars[$key] : '{{{{ EMPTY }}}}';
+        };
+
+        ob_start();
+        include $filename;
+        $result = ob_get_contents();
+        ob_end_clean();
+
+        return $result;
     }
 }

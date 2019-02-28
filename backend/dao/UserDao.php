@@ -17,7 +17,7 @@ class UserDao extends EntityDao
 
     /**
      * @param int[]|string[] $ids
-     * @return Entity[]|bool
+     * @return User[]|bool
      */
     public function select(...$ids)
     {
@@ -46,7 +46,7 @@ class UserDao extends EntityDao
     }
 
     /**
-     * @param Entity $entity
+     * @param User $entity
      * @return bool
      */
     public function update($entity)

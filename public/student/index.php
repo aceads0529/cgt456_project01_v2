@@ -3,57 +3,63 @@ $user = require_login();
 $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 ?>
 
-<div id="page-wrapper">
+<div class="card-background">
+    <h2>Internship Sessions</h2>
 
-
-
-    <table id="Internship Sessions">
+    <table>
         <thead>
         <tr>
-			<th colspan="2"><h2>Internship Sessions</h2></th>
-			<!--<th><a href="form/student.php">+ Create new</a></th>-->
-			<th id="emptyTH" colspan="6"></th>
+            <th><a href="form/student.php">+ Create new</a></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
         <tr>
             <th>Start date</th>
             <th>End date</th>
             <th>Company name</th>
             <th>Job title</th>
-            <th>Total hours</th>
-            <th></th>
-            <th></th>
+            <th>Hours</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <?php if ($sessions): 
-			$total_hours = 0;
-			foreach ($sessions as $session):
-            $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
-            ?>
+        <?php if ($sessions):
+            $total_hours = 0;
+            foreach ($sessions as $session):
+                $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
+                ?>
+                <tr>
+                    <td><?php echo $session->start_date; ?></td>
+                    <td><?php echo $session->end_date; ?></td>
+                    <td><?php echo $employer->name; ?></td>
+                    <td><?php echo $session->job_title; ?></td>
+                    <td><?php echo $session->total_hours; ?></td>
+                    <td>
+                        <a href="student/session.php?sid=<?php echo $session->id; ?>">[View]</a>
+                        <a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a>
+                        <a style="text-decoration: underline; cursor: pointer;"
+                           onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a>
+                    </td>
+                </tr>
+                <?php $total_hours += $session->total_hours; endforeach; ?>
             <tr>
-                <td><?php echo $session->start_date; ?></td>
-                <td><?php echo $session->end_date; ?></td>
-                <td><?php echo $employer->name; ?></td>
-                <td><?php echo $session->job_title; ?></td>
-                <td><?php echo $session->total_hours; ?></td>
-				<td><a href="form/student.php?sid=<?php echo $session->id; ?>">[View]</a></td>
-                <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a></td>
-                <td><a onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="label-value">
+                        <div class="label">Total</div>
+                        <div class="value"><?php echo $total_hours; ?></div>
+                    </div>
+                </td>
+                <td></td>
             </tr>
-        <?php $total_hours += $session->total_hours; endforeach; endif; ?>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>Total: <?php echo $total_hours; ?></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+        <?php endif; ?>
         </tbody>
-        <?php echo $total_hours; ?>
     </table>
 
     <div class="form-button-row">
@@ -64,7 +70,7 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 
 <script>
     function deleteSession(id) {
-        $api.call("submit/delete", {workSessionId: id}, response => {
+        $api.call("student/form-delete", {workSessionId: id}, response => {
             if (response.success) {
                 location.reload();
             }

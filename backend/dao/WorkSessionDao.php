@@ -20,7 +20,15 @@ class WorkSessionDao extends EntityDao
      */
     public function select(...$ids)
     {
-        if ($rows = $this->conn->query(sprintf('SELECT * FROM work_session WHERE %s', self::where('id', $ids)), $ids)) {
+        $rows = null;
+
+        if (sizeof($ids) == 0) {
+            $rows = $this->conn->query('SELECT * FROM work_session');
+        } else {
+            $rows = $this->conn->query(sprintf('SELECT * FROM work_session WHERE %s', self::where('id', $ids)), $ids);
+        }
+
+        if ($rows) {
             $result = array();
             foreach ($rows as $row) {
                 $result[] = WorkSession::from_array($row);
@@ -43,6 +51,20 @@ class WorkSessionDao extends EntityDao
                 $result[] = WorkSession::from_array($row);
             }
             return $result;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param int $supervisor_id
+     * @return bool|WorkSession
+     */
+    public function select_supervisor($supervisor_id)
+    {
+        if (($rows = $this->conn->query('SELECT * FROM work_session WHERE supervisor_id = ?', [$supervisor_id]))
+            && sizeof($rows) > 0) {
+            return WorkSession::from_array($rows[0]);
         } else {
             return false;
         }

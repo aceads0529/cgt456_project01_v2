@@ -105,4 +105,25 @@ class AuthService
             return false;
         }
     }
+
+    /**
+     * @param int $id
+     * @param string $hash
+     * @return bool|string
+     */
+    public static function guest_redirect($id, $hash)
+    {
+        $conn = DaoConnection::default_host();
+
+        if (($rows = $conn->query('SELECT * FROM guest WHERE id = ?', [$id]))
+            && sizeof($rows) > 0) {
+            $rows = $rows[0];
+            if (md5($rows['email']) == $hash) {
+                SessionService::set('guest_id', $rows['id']);
+                return $rows['redirect_url'];
+            }
+        }
+
+        return false;
+    }
 }

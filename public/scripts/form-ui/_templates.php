@@ -2,7 +2,7 @@
 
 @Template GroupElement
 <div class="form-group">
-    <div data-label class="label">%label%</div>
+    <h2 data-label class="label">%label%</h2>
     <div data-error class="error"></div>
 </div>
 

@@ -16,12 +16,14 @@ include_once __DIR__ . '\core\http\ResponseException.php';
 include_once __DIR__ . '\dao\EmployerDao.php';
 include_once __DIR__ . '\dao\OptionDao.php';
 include_once __DIR__ . '\dao\StudentFormDao.php';
+include_once __DIR__ . '\dao\SupervisorFormDao.php';
 include_once __DIR__ . '\dao\UserDao.php';
 include_once __DIR__ . '\dao\WorkSessionDao.php';
 
 include_once __DIR__ . '\entities\Employer.php';
 include_once __DIR__ . '\entities\FormStudent.php';
 include_once __DIR__ . '\entities\StudentForm.php';
+include_once __DIR__ . '\entities\SupervisorForm.php';
 include_once __DIR__ . '\entities\User.php';
 include_once __DIR__ . '\entities\WorkSession.php';
 

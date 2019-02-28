@@ -3,110 +3,58 @@ include_once __DIR__ . '\..\..\includes.php';
 
 $api = new RequestEndpoint();
 
-$api->action('form-get')
-    ->requires('workSessionId')
-    ->callback(function ($request) {
-        /** @var Request $request */
-
-        $user = AuthService::get_active_user_or_deny();
-
-        if (($session = WorkSessionDao::get_instance()->select($request->get_data('workSessionId')))
-            && sizeof($session) > 0) {
-
-            $session = $session[0];
-
-            if ($session->student_id !== $user->id)
-                return Response::error_permission();
-
-            $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
-            $prompts = StudentFormDao::get_instance()->select_form($session->id, $user->id);
-
-            return new Response(true, 'Form values retrieved', ['employer' => $employer, 'session' => $session, 'prompts' => $prompts]);
-        } else {
-            return new Response(false, 'Session not found');
-        }
-    });
-
-$api->action('form-delete')
-    ->requires('workSessionId')
-    ->callback(function ($request) {
-        /** @var Request $request */
-
-        $user = AuthService::get_active_user_or_deny();
-        if (($session = WorkSessionDao::get_instance()->select($request->get_data('workSessionId')))
-            && sizeof($session) > 0) {
-            $session = $session[0];
-
-            if ($session->student_id !== $user->id) {
-                return Response::error_permission();
-            }
-
-            return WorkSessionDao::get_instance()->delete($session->id)
-            && StudentFormDao::get_instance()->delete($session->id)
-                ? new Response(true, 'Session deleted')
-                : new Response(false, 'Session not deleted');
-
-        }
-    });
-
 $api->action('form')
-    ->requires('employer', 'session', 'prompts')
+    ->requires('sessionId', 'prompts')
     ->callback(function ($request) {
         /** @var Request $request */
 
-        $user = AuthService::get_active_user_or_deny();
-        $employer = $request->get_data('employer');
+        $guest_id = SessionService::get('guest_id');
+        $session = WorkSessionDao::get_instance()->select($request->get_data('sessionId'))[0];
 
-        $employer = new Employer(
-            $employer['id'] ? (int)$employer['id'] : null,
-            $employer['name'],
-            $employer['address'],
-            $employer['cgtFields']);
-
-        if ($employer->id === null) {
-            EmployerDao::get_instance()->insert($employer);
+        if (!$guest_id || $session->supervisor_id !== $guest_id) {
+            return Response::error_permission();
         }
-        $session = $request->get_data('session');
+
         $prompts = $request->get_data('prompts');
 
-        $session = new WorkSession(
-            $session['id'] !== null && $session['id'] !== '' ? (int)$session['id'] : null,
-            $user->id,
-            null,
-            $employer->id,
-            $session['jobTitle'],
-            $session['address'],
-            $session['startDate'],
-            $session['endDate'],
-            (int)$prompts['offsite'],
-            (int)$session['compensation']['totalHours'],
-            (float)$session['compensation']['payRate']);
-
-        if ($session->id === null) {
-            WorkSessionDao::get_instance()->insert($session);
-        } else {
-            WorkSessionDao::get_instance()->update($session);
-        }
-
-        $prompts = new StudentForm(
+        $form = new SupervisorForm(
             $session->id,
-            $user->id,
-            $prompts['rating'] !== null ? (int)$prompts['rating'] : null,
-            $prompts['activities'],
-            $prompts['relevantWork'],
-            $prompts['difficulties'],
-            $prompts['relatedToMajor'],
-            $prompts['wantedToLearn'],
-            $prompts['cgtChangedMind'],
-            $prompts['providedContacts']);
+            $guest_id,
+            $prompts['dependable'] ? (int)$prompts['dependable'] : null,
+            $prompts['cooperative'] ? (int)$prompts['cooperative'] : null,
+            $prompts['interested'] ? (int)$prompts['interested'] : null,
+            $prompts['fastLearner'] ? (int)$prompts['fastLearner'] : null,
+            $prompts['initiative'] ? (int)$prompts['initiative'] : null,
+            $prompts['workQuality'] ? (int)$prompts['workQuality'] : null,
+            $prompts['responsibility'] ? (int)$prompts['responsibility'] : null,
+            $prompts['criticism'] ? (int)$prompts['criticism'] : null,
+            $prompts['organization'] ? (int)$prompts['organization'] : null,
+            $prompts['techKnowledge'] ? (int)$prompts['techKnowledge'] : null,
+            $prompts['judgement'] ? (int)$prompts['judgement'] : null,
+            $prompts['creativity'] ? (int)$prompts['creativity'] : null,
+            $prompts['problemAnalysis'] ? (int)$prompts['problemAnalysis'] : null,
+            $prompts['selfReliance'] ? (int)$prompts['selfReliance'] : null,
+            $prompts['communication'] ? (int)$prompts['communication'] : null,
+            $prompts['writing'] ? (int)$prompts['writing'] : null,
+            $prompts['profAttitude'] ? (int)$prompts['profAttitude'] : null,
+            $prompts['profAppearance'] ? (int)$prompts['profAppearance'] : null,
+            $prompts['punctuality'] ? (int)$prompts['punctuality'] : null,
+            $prompts['timeEffective'] ? (int)$prompts['timeEffective'] : null);
 
-        if (StudentFormDao::get_instance()->exists($prompts->work_session_id, $prompts->student_id)) {
-            StudentFormDao::get_instance()->update($prompts);
+        if (SupervisorFormDao::get_instance()->insert($form)) {
+            return new Response(true, 'Form created successfully');
         } else {
-            StudentFormDao::get_instance()->insert($prompts);
+            return Response::error_server();
         }
+    });
 
-        return new Response(true, 'Form submitted successfully');
+$api->action('form-approve')
+    ->requires('sessionId')
+    ->callback(function ($request) {
+        /** @var Request $request */
+
+        WorkSessionDao::get_instance()->update(WorkSession::from_array(['id' => (int)$request->get_data('sessionId'), 'approved' => 1]));
+        return new Response(true, 'Form approved successfully');
     });
 
 $api->call();

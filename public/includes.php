@@ -13,3 +13,18 @@ function require_login()
         exit;
     }
 }
+
+/**
+ * @param string $key
+ * @return mixed
+ */
+function read_get($key)
+{
+    return isset($_GET[$key]) ? $_GET[$key] : null;
+}
+
+function redirect($url)
+{
+    header('Location: ' . $url);
+    exit;
+}

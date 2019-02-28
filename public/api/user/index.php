@@ -12,7 +12,9 @@ $api->action('login')
         $password = $request->get_data('password');
 
         if (AuthService::login($login, $password)) {
-            return new Response(true, 'Login successful', ['redirect' => SessionService::remove('auth_redirect')]);
+            $redirect = AuthService::get_active_user()->user_group_id . '/index.php';
+
+            return new Response(true, 'Login successful', ['redirect' => $redirect]);
         } else {
             return new Response(false, 'Username and password don\'t match');
         }

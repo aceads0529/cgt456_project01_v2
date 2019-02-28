@@ -12,8 +12,18 @@ function showForm(form) {
 }
 
 function onSubmit() {
-    const data = {...forms[0].value(), ...forms[1].value(), ...forms[2].value()};
-    console.log(data);
+    const prompts = {...forms[0].value(), ...forms[1].value(), ...forms[2].value()};
+
+    const url = new URL(window.location);
+    const sessionId = url.searchParams.get("sid") !== null ? parseInt(url.searchParams.get("sid")) : null;
+
+    if (sessionId) {
+        $api.call('supervisor/form', {sessionId: sessionId, prompts: prompts}, response => {
+            if (response.success) {
+                location.replace('auth/login.php');
+            }
+        });
+    }
 }
 
 function createSupervisorOne() {
@@ -76,6 +86,6 @@ $form.ready(function () {
     showForm(0);
 
     host.submit(e => {
-        e.preventDefault()
+        e.preventDefault();
     });
 });

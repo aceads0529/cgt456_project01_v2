@@ -33,7 +33,9 @@ $api->action('form-delete')
         /** @var Request $request */
 
         $user = AuthService::get_active_user_or_deny();
-        if (($session = WorkSessionDao::get_instance()->select($request->get_data('workSessionId')))
+        $sessionId = (int)$request->get_data('workSessionId');
+
+        if (($session = WorkSessionDao::get_instance()->select($sessionId))
             && sizeof($session) > 0) {
             $session = $session[0];
 
@@ -41,11 +43,13 @@ $api->action('form-delete')
                 return Response::error_permission();
             }
 
-            return WorkSessionDao::get_instance()->delete($session->id)
-            && StudentFormDao::get_instance()->delete($session->id)
-                ? new Response(true, 'Session deleted')
-                : new Response(false, 'Session not deleted');
+            WorkSessionDao::get_instance()->delete($session->id);
+            StudentFormDao::get_instance()->delete($session->id);
 
+            return new Response(true, 'Form successfully deleted');
+
+        } else {
+            return Response::error_server();
         }
     });
 
@@ -70,6 +74,8 @@ $api->action('form')
         $session = $request->get_data('session');
         $prompts = $request->get_data('prompts');
 
+        // Uploaded file handling here...
+
         $session = new WorkSession(
             $session['id'] !== null && $session['id'] !== '' ? (int)$session['id'] : null,
             $user->id,
@@ -81,13 +87,19 @@ $api->action('form')
             $session['endDate'],
             (int)$prompts['offsite'],
             (int)$session['compensation']['totalHours'],
-            (float)$session['compensation']['payRate']);
+            (float)$session['compensation']['payRate']
+            /* TODO: Put file URL here */);
 
         if ($session->id === null) {
             WorkSessionDao::get_instance()->insert($session);
         } else {
             WorkSessionDao::get_instance()->update($session);
         }
+
+        $guest_email = $request->get_data('employer')['email'];
+        $guest_id = AuthService::register_guest($guest_email, '/form/supervisor.php?sid=' . $session->id);
+
+        WorkSessionDao::get_instance()->update(WorkSession::from_array(['id' => $session->id, 'supervisor_id' => $guest_id]));
 
         $prompts = new StudentForm(
             $session->id,
@@ -107,10 +119,7 @@ $api->action('form')
             StudentFormDao::get_instance()->insert($prompts);
         }
 
-        $guest_email = $request->get_data('employer')['email'];
-        $guest_id = AuthService::register_guest($guest_email, '/auth/login.php');
-
-        MailService::email($guest_email, 'Supervisor Survey', 'Please take the time to fill out this survey: <a href="p1.cgt456.localhost/invite.php?id=' . $guest_id . '">Purdue Polytech Internship Program</a>"');
+        MailService::email($guest_email, 'Supervisor Survey', 'Please take the time to fill out this survey: <a href="p1.cgt456.localhost/auth/invite.php?id=' . $guest_id . '">Purdue Polytech Internship Program</a>');
 
         return new Response(true, 'Form submitted successfully');
     });
