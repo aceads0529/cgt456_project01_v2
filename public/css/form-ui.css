@@ -167,18 +167,25 @@ button:hover {
 
 /*progressbar*/
 #progressbar {
-	margin-left: 28%;
-    margin-bottom: 30px;
+	display: block;
+	position: relative;
+	width: 75%;
+	max-width: 800px;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+    margin-bottom: 2rem;
     overflow: hidden;
     counter-reset: step;
     text-align: center;
+	
 }
 #progressbar li {
 	list-style-type: none;
 	color: white;
 	text-transform: uppercase;
 	font-size: 16px;
-	width: 20%;
+	width: 33%;
 	float: left;
 	position: relative;
 }

@@ -87,6 +87,7 @@ table {
     width: 100%;
  	background-color: #fff;
 	border-collapse: collapse;
+	font-size: 1.2rem;
 }
 
 table th {
@@ -96,6 +97,13 @@ table th {
 
 table td {
     padding: 10px;
+}
+
+table td a {
+	display: inline-block;
+	text-align: center;
+    height: 100%;
+    width: 100%;
 }
 
 thead {

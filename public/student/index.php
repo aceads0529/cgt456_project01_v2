@@ -7,12 +7,12 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 
 
 
-    <table>
+    <table id="Internship Sessions">
         <thead>
         <tr>
 			<th colspan="2"><h2>Internship Sessions</h2></th>
-			<th id="emptyTH" colspan="5"></th>
-			<th><a href="form/student.php">+ Create new</a></th>
+			<!--<th><a href="form/student.php">+ Create new</a></th>-->
+			<th id="emptyTH" colspan="6"></th>
         </tr>
         <tr>
             <th>Start date</th>
@@ -37,7 +37,7 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
                 <td><?php echo $employer->name; ?></td>
                 <td><?php echo $session->job_title; ?></td>
                 <td><?php echo $session->total_hours; ?></td>
-				<td><a href="form/student.php?sid=<?php echo $session->id; ?>">[view]</a></td>
+				<td><a href="form/student.php?sid=<?php echo $session->id; ?>">[View]</a></td>
                 <td><a href="form/student.php?sid=<?php echo $session->id; ?>">[Edit]</a></td>
                 <td><a onclick="deleteSession(<?php echo $session->id; ?>)">[Delete]</a></td>
             </tr>
