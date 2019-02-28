@@ -22,12 +22,11 @@ class DaoConnection
      */
     public static function default_host()
     {
-<<<<<<< HEAD
+
         return new DaoConnection('www.aaroneads.com:3306', 'admin', 'Ascii32', 'cgt456_project01');
-=======
+
         include __DIR__ . '\..\..\environment.php';
-        return new DaoConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
->>>>>>> acc606120d3754aec571cd17943d664d5e78b73b
+        //return new DaoConnection(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     }
 
     /**

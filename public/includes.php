@@ -9,7 +9,7 @@ function require_login()
         return $user;
     } else {
         SessionService::set('auth_redirect', $_SERVER['SCRIPT_NAME']);
-        header('Location: /auth/login.php');
+        header('Location: ../auth/login.php');
         exit;
     }
 }
