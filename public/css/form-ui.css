@@ -2,16 +2,14 @@ form {
     max-width: 800px;
     margin: 0 auto;
 	background-color: white;
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 30px;
-    padding-bottom: 50px;
+	padding: 1px 4rem 4rem;
 	border-radius: 8px;
 }
 
 input, textarea {
     padding: 10px;
     font: inherit;
+	font-size: 1.2rem;
     border: 1px solid #aaa;
     border-radius: 4px;
     outline: none;
@@ -26,9 +24,14 @@ input[type=text], textarea {
     width: 100%;
 }
 
+label {
+	font-size: 1.33em;
+	
+}
+
 .form-group .label {
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 2em;
     border-bottom: 1px solid #aaa;
     padding: 20px 0;
     margin: 40px 0;
@@ -60,7 +63,7 @@ input[type=text], textarea {
 }
 
 .label-input > div, .label-input > input, .label-input textarea {
-    flex: 1 1 100px;
+    flex: 1 1 200px;
     display: block;
     width: 100%;
 }
@@ -151,6 +154,10 @@ button:hover {
 .option {
     padding: 5px;
     flex: 1 1 200px;
+}
+
+.option:hover {
+	background: #ffdf99;
 }
 
 /*progressbar*/

@@ -5,12 +5,14 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 
 <div id="page-wrapper">
 
-    <h2>Internship Sessions</h2>
+
 
     <table>
         <thead>
         <tr>
-            <th><a href="form/student.php">+ Create new</a></th>
+			<th colspan="2"><h2>Internship Sessions</h2></th>
+			<th id="emptyTH" colspan="5"></th>
+			<th><a href="form/student.php">+ Create new</a></th>
         </tr>
         <tr>
             <th>Start date</th>
@@ -21,7 +23,6 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
             <th></th>
             <th></th>
             <th></th>
-			<th></th>
         </tr>
         </thead>
         <tbody>

@@ -2,6 +2,7 @@ const forms = [];
 
 function showForm(form) {
     forms.forEach((item, index) => item.html.toggleClass("hide", index !== form));
+	$("html, body").animate({ scrollTop: 0 }, "fast"); //scrolls to top of page after click
 }
 
 function onSubmit() {

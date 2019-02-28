@@ -4,7 +4,7 @@
 <html lang="en-us">
 <head>
     <base href="/"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=.75">
 
     <title>Login</title>
     <link href="./css/main.css" rel="stylesheet"/>
@@ -33,10 +33,16 @@
     <script src="./scripts/api.js"></script>
 </head>
 <body>
-<div class="banner-holder">
-	<img src="https://polytechnic.purdue.edu/sites/default/files/files/PPI-Polyt-V-W-RGB.png">
-</div>	
 <div class="header">
+
+	<div>
+		<img id="logo" src="https://polytechnic.purdue.edu/sites/default/files/files/PPI-Polyt-V-W-RGB.png">
+		
+		<div id="polytechHeader">
+			<h1>Polytech Internship Program</h1>
+		</div>
+	</div>	
+
 	<nav>
     	<ul>
         	<li><a href="auth/register.php">Register</a></li>
@@ -44,7 +50,7 @@
     	</ul>
 	</nav>
 	
-	<h1>Polytech Internship Program</h1>
+
 	
 	<?php if (!AuthService::get_active_user()): ?>
 	<button id="loginBtn" style="display: none;"><a href="auth/logout.php">Logout</a></button>

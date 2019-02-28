@@ -2,7 +2,7 @@
 require_login(); ?>
 
 <div class="ribbon">
-	<img src="http://104.248.58.191/456/assign1/form/images/Ribbon-01.png">
+	<img src="../images/Ribbon-01.png">
 </div>
 
 <form id="form-student"></form>
