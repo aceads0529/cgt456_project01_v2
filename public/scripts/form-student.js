@@ -3,6 +3,10 @@ const forms = [];
 function showForm(form) {
     forms.forEach((item, index) => item.html.toggleClass("hide", index !== form));
 	$("html, body").animate({ scrollTop: 0 }, "fast"); //scrolls to top of page after click
+	for(var i = 0; i < forms.length; i++) {
+		if(i <= form) { $("#progressbar #"+i).addClass("active"); }
+		else { $("#progressbar #"+i).removeClass("active"); }
+	} //progress bar
 }
 
 function onSubmit() {

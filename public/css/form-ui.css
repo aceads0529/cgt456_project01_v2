@@ -160,6 +160,11 @@ button:hover {
 	background: #ffdf99;
 }
 
+.option label {
+	display: inline-block;
+    width: calc(100% - 16px);
+}
+
 /*progressbar*/
 #progressbar {
 	margin-left: 28%;
