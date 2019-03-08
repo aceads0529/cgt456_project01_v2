@@ -10,6 +10,7 @@ $sessions = WorkSessionDao::get_instance()->select();
     <table>
         <thead>
         <tr>
+            <th>Student ID</th>
             <th>Student</th>
             <th>Start date</th>
             <th>End date</th>
@@ -27,6 +28,7 @@ $sessions = WorkSessionDao::get_instance()->select();
                 $student = UserDao::get_instance()->select($session->student_id)[0];
                 ?>
                 <tr>
+                    <td><?php echo $session->student_id; ?></td>
                     <td><?php echo $student->first_name . ' ' . $student->last_name; ?></td>
                     <td><?php echo $session->start_date; ?></td>
                     <td><?php echo $session->end_date; ?></td>
