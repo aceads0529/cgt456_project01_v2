@@ -105,7 +105,7 @@ function createPromptsForm() {
         .append(new TextareaElement("wantedToLearn", "Is there anything you wanted to learn during internship that you were not able to?"))
         .append(new TextareaElement("cgtChangedMind", "Has this work experience changed your mind about which sector of CGT you might be most interested in pursuing?"))
         .append(new TextareaElement("providedContacts", "Did the internship provide you with contacts which may lead to future employment?"))
-        .append(new RatingElement("rating", "Considering your overall experience, how would you rate this internship?").value(2))
+        .append(new LikertElement("rating", "Considering your overall experience, how would you rate this internship?").value(2))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(1)))
             .append(new ButtonElement("submit", "Submit", () => onSubmit())));

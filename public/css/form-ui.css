@@ -21,7 +21,7 @@ input, textarea {
 
 input:focus, textarea:focus {
     border-color: #c28e0e;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+   /* box-shadow: 0 0 0 rgba(0, 0, 0, 0.2); */
 }
 
 input[type=text], textarea {
@@ -33,17 +33,27 @@ input[type=text], textarea {
     font-size: 1.5em;
     border-bottom: 1px solid #aaa;
     padding: 20px 0;
-    margin: 40px 0;
+    margin: 20px 0;
 }
 
 .form-row {
     margin: 20px 0;
 }
 
+.alternating .form-row {
+	padding: 15px;
+	margin: 10px 0;
+}
+
+.alternating .form-row:nth-child(even) {
+	background: #eee;
+
+}
+
 .label-input {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
 }
 
 .label-input.expand {
@@ -62,7 +72,7 @@ input[type=text], textarea {
 }
 
 .label-input > div, .label-input > input, .label-input textarea {
-    flex: 1 1 320px;
+    flex: 1 1 400px;
     display: block;
     width: 100%;
 }
@@ -74,8 +84,8 @@ input[type=text], textarea {
 .search-results {
     position: absolute;
     background: white;
-    border: 1px solid #aaa;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    border: 0px solid #aaa;
+   /* box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); */
     left: 0;
     right: 0;
     display: none;
@@ -97,6 +107,13 @@ input[type=text], textarea {
 .search-results li {
     user-select: none;
     padding: 10px;
+	border: 1px solid #aaa;
+	border-top: 0;
+	border-bottom: 0;
+}
+
+.search-results li:last-of-type {
+	border-bottom: 1px solid #aaa;
 }
 
 .search-results li:hover {
@@ -112,7 +129,7 @@ input[type=text], textarea {
 .form-button-row a {
     border: 3px solid white;
     font-size: 20px;
-    background-color: white;
+    background-color: #eee;
     color: black;
     padding: 10px;
     border-radius: 8px;
@@ -120,7 +137,7 @@ input[type=text], textarea {
 }
 
 .form-button-row a:hover {
-    background-color: #eee;
+    background-color: #c28e0e;
 }
 
 .form-button-row button {
@@ -146,7 +163,7 @@ button:hover {
     background-color: #98700D;
 }
 
-.wrap .option-group {
+.wrap .option-group, .wrap .likert-group {
     flex-wrap: wrap;
     display: flex;
 }
@@ -158,19 +175,50 @@ button:hover {
     align-items: baseline;
 }
 
+.option:hover, .likert:hover {
+	background: #eee;
+}
+
 .error {
     color: #f00;
 }
 
 .option input {
     margin-right: 5px;
+
 }
+
+.likert {
+	width: 20%;
+	float: left;
+	text-align: center;
+	line-height: 1.75em;
+}
+
+.likert label {
+	padding-bottom: 30px;
+}
+
+/*
+.likert label {
+	display: block;
+	width: 100%;
+	padding: 15px 0;
+	background: green;
+}
+
+.likert input:checked ~ label {
+	background: yellow;
+}
+ in-progress on making a custom radio button
+*/
+
 
 .progress-wrapper {
     text-align: center;
 }
 
-/*progressbar*/
+/*progressbar
 #progressbar {
     display: inline-block;
     margin: 50px auto;
@@ -188,6 +236,34 @@ button:hover {
     float: left;
     position: relative;
 }
+
+*/
+
+#progressbar {
+	display: block;
+	position: relative;
+	width: 75%;
+	max-width: 800px;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    counter-reset: step;
+    text-align: center;
+	
+}
+#progressbar li {
+	list-style-type: none;
+	color: white;
+	text-transform: uppercase;
+	font-size: 16px;
+	width: 33%;
+	float: left;
+	position: relative;
+}
+
+
 
 #progressbar li:before {
     content: counter(step);

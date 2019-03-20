@@ -27,14 +27,14 @@ function onSubmit() {
 }
 
 function createSupervisorOne() {
-    const form = new GroupElement("one", "Intern Evaluation (1/3)")
-        .append(new RatingElement("dependable", "Performs in a dependable manner"))
-        .append(new RatingElement("cooperative", "Cooperates with co-workers and supervisors"))
-        .append(new RatingElement("interested", "Shows interest in work"))
-        .append(new RatingElement("fastLearner", "Learns quickly"))
-        .append(new RatingElement("initiative", "Shows initiative"))
-        .append(new RatingElement("workQuality", "Produces high quality work"))
-        .append(new RatingElement("responsibility", "Accepts responsibility"))
+    const form = new AlternatingGroupElement("one", "Intern Evaluation (1/3)")
+        .append(new LikertElement("dependable", "Performs in a dependable manner"))
+        .append(new LikertElement("cooperative", "Cooperates with co-workers and supervisors"))
+        .append(new LikertElement("interested", "Shows interest in work"))
+        .append(new LikertElement("fastLearner", "Learns quickly"))
+        .append(new LikertElement("initiative", "Shows initiative"))
+        .append(new LikertElement("workQuality", "Produces high quality work"))
+        .append(new LikertElement("responsibility", "Accepts responsibility"))
         .append(new RowElement()
             .append(new ButtonElement("next", "Next", () => showForm(1))));
 
@@ -42,14 +42,14 @@ function createSupervisorOne() {
 }
 
 function createSupervisorTwo() {
-    const form = new GroupElement("two", "Intern Evaluation (2/3)")
-        .append(new RatingElement("criticism", "Accepts criticism"))
-        .append(new RatingElement("organization", "Demonstrates organizational skills"))
-        .append(new RatingElement("techKnowledge", "Demonstrates technical knowledge and expertise"))
-        .append(new RatingElement("judgement", "Shows good judgment"))
-        .append(new RatingElement("creativity", "Demonstrates creativity/originality"))
-        .append(new RatingElement("problemAnalysis", "Analyzes problems effectively"))
-        .append(new RatingElement("selfReliance", "Is self-reliant"))
+    const form = new AlternatingGroupElement("two", "Intern Evaluation (2/3)")
+        .append(new LikertElement("criticism", "Accepts criticism"))
+        .append(new LikertElement("organization", "Demonstrates organizational skills"))
+        .append(new LikertElement("techKnowledge", "Demonstrates technical knowledge and expertise"))
+        .append(new LikertElement("judgement", "Shows good judgment"))
+        .append(new LikertElement("creativity", "Demonstrates creativity/originality"))
+        .append(new LikertElement("problemAnalysis", "Analyzes problems effectively"))
+        .append(new LikertElement("selfReliance", "Is self-reliant"))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(0)))
             .append(new ButtonElement("next", "Next", () => showForm(2))));
@@ -58,13 +58,13 @@ function createSupervisorTwo() {
 }
 
 function createSupervisorThree() {
-    const form = new GroupElement("three", "Intern Evaluation (3/3)")
-        .append(new RatingElement("communication", "Communicates well"))
-        .append(new RatingElement("writing", "Writes effectively"))
-        .append(new RatingElement("profAttitude", "Has a professional attitude"))
-        .append(new RatingElement("profAppearance", "Gives a professional appearance"))
-        .append(new RatingElement("punctuality", "Is punctual"))
-        .append(new RatingElement("timeEffective", "Uses time effectively"))
+    const form = new AlternatingGroupElement("three", "Intern Evaluation (3/3)")
+        .append(new LikertElement("communication", "Communicates well"))
+        .append(new LikertElement("writing", "Writes effectively"))
+        .append(new LikertElement("profAttitude", "Has a professional attitude"))
+        .append(new LikertElement("profAppearance", "Gives a professional appearance"))
+        .append(new LikertElement("punctuality", "Is punctual"))
+        .append(new LikertElement("timeEffective", "Uses time effectively"))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(1)))
             .append(new ButtonElement("submit", "Submit", () => onSubmit())));

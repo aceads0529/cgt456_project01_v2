@@ -84,6 +84,29 @@ class RatingElement extends OptionElement {
     }
 }
 
+class LikertElement extends OptionElement {
+    constructor(id, label, required = true) {
+        super(id, label, [
+            {
+                name: "Very good",
+                value: 4
+            }, {
+                name: "Good",
+                value: 3
+            }, {
+                name: "Okay",
+                value: 2
+            }, {
+                name: "Bad",
+                value: 1
+            }, {
+                name: "Very bad",
+                value: 0
+            }
+        ], "radio", required);
+    }
+}
+
 class YesNoElement extends OptionElement {
     constructor(id, label, required = true) {
         super(id, label, [

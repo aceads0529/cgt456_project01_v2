@@ -92,3 +92,6 @@ class GroupElement extends Element {
         return true;
     }
 }
+
+class AlternatingGroupElement extends GroupElement {
+}
