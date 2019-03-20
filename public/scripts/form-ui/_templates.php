@@ -85,3 +85,11 @@
         </div>
     </div>
 </div>
+
+@Template FileElement
+<div class="form-row">
+    <div class="label-input">
+        <label for="%id%">%label%</label>
+        <input data-file type="file" name="%id" id="%id%"/>
+    </div>
+</div>
