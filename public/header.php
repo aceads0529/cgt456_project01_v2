@@ -64,7 +64,7 @@
     ?>
 
     <div>
-        <img id="logo" src="https://polytechnic.purdue.edu/sites/default/files/files/PPI-Polyt-V-W-RGB.png">
+        <a href="https://polytechnic.purdue.edu/"><img id="logo" src="../images/PolytechLogo.png"></a>
 
         <div id="polytechHeader">
             <h1>Polytech Internship Program</h1>

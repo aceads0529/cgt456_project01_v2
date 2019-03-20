@@ -2,7 +2,7 @@
     max-width: 960px;
     margin: 0 auto;
     background-color: white;
-    padding: 30px 50px 100px;
+    padding: 50px 50px;
     border-radius: 8px;
     color: black;
 }
@@ -32,8 +32,8 @@ input[type=text], textarea {
     font-weight: bold;
     font-size: 1.5em;
     border-bottom: 1px solid #aaa;
-    padding: 20px 0;
-    margin: 40px 0;
+    padding-bottom: 20px;
+    margin: 20px;
 }
 
 .form-row {
@@ -105,13 +105,11 @@ input[type=text], textarea {
 
 .form-button-row {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 50px;
 }
 
 .form-button-row a {
     border: 3px solid white;
-    font-size: 20px;
+    font-size: 15px;
     background-color: white;
     color: black;
     padding: 10px;
@@ -173,7 +171,7 @@ button:hover {
 /*progressbar*/
 #progressbar {
     display: inline-block;
-    margin: 50px auto;
+    margin: 20px auto;
     overflow: hidden;
     counter-reset: step;
     text-align: center;
