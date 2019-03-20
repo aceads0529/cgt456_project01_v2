@@ -2,9 +2,9 @@
 
 <div class="progress-wrapper">
     <ul id="progressbar">
-        <li id="0" class="active"></li>
-        <li id="1"></li>
-        <li id="2"></li>
+        <li id="0" class="active">Part 1</li>
+        <li id="1">Part 2</li>
+        <li id="2">Part 3</li>
     </ul>
 </div>
 

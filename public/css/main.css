@@ -13,6 +13,7 @@ hr {
 html {
     /*background = gradient + image pattern combo*/
     background-image: url(https://purdue.edu/purdue/images/templateElements/2015/stripes-tile.png);
+	min-width: 540px;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
     font-size: 11pt;
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
+	font-size: 12pt;
     margin: 20px 20px 100px;
 }
 
@@ -36,9 +38,13 @@ h1, h2, h3 {
 
 
 h1 {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin: 20px 0;
 }
+
+h2 {
+    margin: 20px 0;
+}
+
 
 #polytechHeader {
     color: white;
@@ -47,8 +53,7 @@ h1 {
     top:0.5rem;
     left: 50%;
     -webkit-transform: translateX(-50%);
-    transform: translateX(-50%) /*margin-top: 50px;
-	margin-bottom: 50px;*/
+    transform: translateX(-50%);
 }
 
 #logo {
@@ -77,14 +82,18 @@ nav ul {
 }
 
 nav ul li {
-    font-size: 18pt;
+    font-size: 16pt;
     padding: 10px;
     color: white;
 }
 
 nav ul li a {
     text-decoration: none;
+	/*border-radius: 6px;
+    background: #c28e0e;
+    padding: .25em .7em .375em;*/
 }
+
 
 nav ul li a:hover {
     text-decoration: underline;
@@ -115,6 +124,14 @@ table th {
 table td {
     padding: 10px;
 }
+
+/*
+table td a {
+	display: inline-block;
+	text-align: center;
+    height: 100%;
+    width: 100%;
+}*/
 
 thead {
     background: #c28e0e;

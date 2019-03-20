@@ -18,7 +18,7 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
             <th>Company name</th>
             <th>Job title</th>
             <th>Hours</th>
-            <th></th>
+            <th><a  href="form/student.php">+ Create new</a></th>
         </tr>
         </thead>
         <tbody>
