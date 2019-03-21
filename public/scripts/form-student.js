@@ -144,7 +144,6 @@ function populateForm(data) {
     forms[1].getField("endDate").value(data.session.end_date);
     forms[1].getField("compensation").getField("totalHours").value(data.session.total_hours);
     forms[1].getField("compensation").getField("payRate").value(data.session.pay_rate);
-	forms[1].getField("fileUpload").value(data.session.file_upload);
 
     forms[2].getField("offsite").value(data.session.offsite);
     forms[2].getField("activities").value(data.prompts.form_activities);
