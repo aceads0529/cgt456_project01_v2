@@ -108,7 +108,8 @@ function createPromptsForm() {
         .append(new LikertElement("rating", "Considering your overall experience, how would you rate this internship?").value(2))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(1)))
-            .append(new ButtonElement("submit", "Submit", () => onSubmit())));
+            .append(new ButtonElement("submit", "Submit", () => onSubmit()))
+		);
 }
 
 function populateForm(data) {
