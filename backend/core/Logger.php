@@ -1,6 +1,6 @@
 <?php
 
-class Debug
+class Logger
 {
     const INFO = 0, WARNING = 1, ERROR = 2;
 
@@ -8,16 +8,16 @@ class Debug
      * @param string $message
      * @param int $code
      */
-    public static function log($message, $code = Debug::INFO)
+    public static function log($message, $code = Logger::INFO)
     {
         switch ($code) {
-            case Debug::INFO:
+            case Logger::INFO:
                 $code = 'INFO';
                 break;
-            case Debug::WARNING:
+            case Logger::WARNING:
                 $code = 'WARNING';
                 break;
-            case Debug::ERROR:
+            case Logger::ERROR:
                 $code = 'ERROR';
                 break;
         }
@@ -27,6 +27,22 @@ class Debug
 
         fwrite($file, $message);
         fclose($file);
+    }
+
+    /**
+     * @param string $message
+     */
+    public static function error($message)
+    {
+        self::log($message, Logger::ERROR);
+    }
+
+    /**
+     * @param string $message
+     */
+    public static function warning($message)
+    {
+        self::log($message, Logger::WARNING);
     }
 
     public static function get_script_dir()
@@ -42,6 +58,9 @@ class Debug
         return date(DATE_RFC1036, time());
     }
 
+    /**
+     * @return bool|resource
+     */
     private static function get_logfile()
     {
         return fopen($_SERVER['DOCUMENT_ROOT'] . '\log', 'a');

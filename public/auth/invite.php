@@ -1,5 +1,5 @@
-<?php
-include '../header.php';
+<?php include '../site.php';
+site_header('Supervisor Survey Invitation', CGT_PAGE_FORM);
 
 $guest_id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 $hash = isset($_GET['h']) ? $_GET['h'] : null;

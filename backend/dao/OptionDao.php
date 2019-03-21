@@ -23,6 +23,10 @@ class OptionDao extends Dao
         return $this->conn->query('SELECT id, label FROM cgt_field ORDER BY sort_order ASC');
     }
 
+    public function get_cgt_fields_by_employer($employer_id) {
+
+    }
+
     /**
      * @return array|bool
      */

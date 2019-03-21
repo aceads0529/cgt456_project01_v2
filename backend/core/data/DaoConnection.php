@@ -29,6 +29,65 @@ class DaoConnection
     /**
      * @param string $query_str
      * @param array $params
+     * @return PDOStatement
+     * @throws Exception
+     */
+    public function pdo_execute($query_str, $params)
+    {
+        $pdo = new PDO('mysql:host=localhost:3306;dbname=cgt456_project01', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
+        $stmt = $pdo->prepare($query_str);
+
+        if (!$stmt) {
+            throw new Exception(sprintf('Invalid query "%s"', $query_str));
+        }
+
+        foreach ($params as $key => $value) {
+            if (!$this->bind_param($stmt, $key, $value)) {
+                throw new Exception(sprintf('Invalid parameter "%s" in query', $key));
+            }
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception($stmt->errorInfo()[2]);
+        }
+
+        return $stmt;
+    }
+
+    /**
+     * @param PDOStatement $stmt
+     * @param string $name
+     * @param mixed $value
+     * @return bool
+     */
+    private function bind_param($stmt, $name, &$value)
+    {
+        $type = null;
+
+        if (is_int($value)) {
+            $type = PDO::PARAM_INT;
+        } else if (is_string($value)) {
+            $type = PDO::PARAM_STR;
+        } else if (is_bool($value)) {
+            $value = $value ? 1 : 0;
+            $type = PDO::PARAM_INT;
+        } else if (is_float($value)) {
+            $value = strval($value);
+            $type = PDO::PARAM_STR;
+        }
+
+        if ($type) {
+            $stmt->bindParam(':' . $name, $value, $type);
+        }
+
+        return $type ? true : false;
+    }
+
+    /**
+     * @param string $query_str
+     * @param array $params
      * @return bool|array
      */
     public function query($query_str, $params = null)

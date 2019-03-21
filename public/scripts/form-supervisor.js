@@ -27,7 +27,7 @@ function onSubmit() {
 }
 
 function createSupervisorOne() {
-    const form = new AlternatingGroupElement("one", "Intern Evaluation (1/3)")
+    const form = new GroupElement("one", "Intern Evaluation (1/3)")
         .append(new LikertElement("dependable", "Performs in a dependable manner"))
         .append(new LikertElement("cooperative", "Cooperates with co-workers and supervisors"))
         .append(new LikertElement("interested", "Shows interest in work"))
@@ -42,7 +42,7 @@ function createSupervisorOne() {
 }
 
 function createSupervisorTwo() {
-    const form = new AlternatingGroupElement("two", "Intern Evaluation (2/3)")
+    const form = new GroupElement("two", "Intern Evaluation (2/3)")
         .append(new LikertElement("criticism", "Accepts criticism"))
         .append(new LikertElement("organization", "Demonstrates organizational skills"))
         .append(new LikertElement("techKnowledge", "Demonstrates technical knowledge and expertise"))
@@ -58,7 +58,7 @@ function createSupervisorTwo() {
 }
 
 function createSupervisorThree() {
-    const form = new AlternatingGroupElement("three", "Intern Evaluation (3/3)")
+    const form = new GroupElement("three", "Intern Evaluation (3/3)")
         .append(new LikertElement("communication", "Communicates well"))
         .append(new LikertElement("writing", "Writes effectively"))
         .append(new LikertElement("profAttitude", "Has a professional attitude"))

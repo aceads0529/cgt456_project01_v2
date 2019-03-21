@@ -1,4 +1,6 @@
-<?php include '.\..\header.php';
+<?php include '../site.php';
+site_header('', CGT_PAGE_DEFAULT);
+
 $user = require_login();
 $sessions = WorkSessionDao::get_instance()->select();
 ?>
@@ -6,80 +8,50 @@ $sessions = WorkSessionDao::get_instance()->select();
 <div class="card-background">
     <h2>Student Work Sessions</h2>
 
+    <input id="name-search" type="text"/>
+
     <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
-    
+
     <script type="text/javascript" charset="utf-8">
-        // specify the columns
-        var columnDefs = [
-            {headerName: "Student ID", field: "studentID", width: 100, sortable: true, filter: true},
-            {headerName: "Student", field: "studentName", width: 200, sortable: true, filter: true},
-            {headerName: "Start date", field: "startDate", width: 100, sortable: true, filter: true},
-            {headerName: "End date", field: "endDate", width: 100, sortable: true, filter: true},
-            {headerName: "Company name", field: "companyName", width: 200, sortable: true, filter: true},
-            {headerName: "Job title", field: "jobTitle", width: 168, sortable: true, filter: true},
-            {headerName: "Hours", field: "hours", width: 80, sortable: true, filter: true},
-            {headerName: "", field: "view", width: 50, 
-                cellRenderer: function(params) {
-                    //Creates link to view the info
-                    return '<a href="student/session.php?sid='+params.value+'">View</a>'
-                }
-            },
-            {headerName: "Approval", field: 'approve', width: 100, sortable: true, 
-                cellRenderer: function(params) {
-                    if (params.value == 1) {
-                        //If Approved
-                        return '<span style="color: #c28e0e">Approved</span>';
+        function initializeAgGrid() {
+            const colDefs = [
+                {hide: true, headerName: "Full name", field: "fullName", filter: true},
+                {headerName: "First name", field: "firstName", width: 200, sortable: true, filter: true},
+                {headerName: "Last name", field: "lastName", width: 200, sortable: true, filter: true},
+                {headerName: "Job title", field: "jobTitle", width: 168, sortable: true, filter: true},
+                {headerName: "Start date", field: "startDate", width: 100, sortable: true, filter: true},
+                {headerName: "End date", field: "endDate", width: 100, sortable: true, filter: true},
+                {headerName: "Employer", field: "employer", width: 200, sortable: true, filter: true},
+                {headerName: "Total hours", field: "totalHours", width: 80, sortable: true, filter: true},
+                {
+                    headerName: "", field: "session", width: 50,
+                    cellRenderer: params => {
+                        return `<a target="_blank" href="student/session.php?sid=${params.value.id}">[View]</a>`;
                     }
-                    else{
-                        //If Not Approved
-                        return '<a style="text-decoration: underline; cursor: pointer;" onclick="approveSession('+params.value+')">[Approve]</a>';
+                },
+                {
+                    headerName: "Status", field: "session", width: 100, sortable: true,
+                    cellRenderer: params => {
+                        const session = params.value;
+                        if (session.approved) {
+                            return `<span style="color: #c28e0e">Approved</span>`;
+                        } else {
+                            return `<a style="text-decoration: underline" onclick="approveSession(${session.id})">[Approve]</a>`;
+                        }
                     }
                 }
-            },
-        ];
-    
-        // specify the data
-        var rowData = [
-            <?php 
-                if ($sessions): foreach ($sessions as $session):
-                $employer = EmployerDao::get_instance()->select($session->employer_id)[0];
-                $student = UserDao::get_instance()->select($session->student_id)[0];
-            ?>
-            {studentID: "<?php echo $session->student_id; ?>", 
-            studentName: "<?php echo $student->first_name . ' ' . $student->last_name; ?>", 
-            startDate: "<?php echo $session->start_date; ?>", 
-            endDate: "<?php echo $session->end_date; ?>", 
-            companyName: "<?php echo $employer->name; ?>", 
-            jobTitle: "<?php echo $session->job_title; ?>", 
-            hours: "<?php echo $session->total_hours; ?>", 
-            view: "<?php echo $session->id; ?>",
-            approve: "<?php if ($session->approved === 1){echo $session->approved;} else {echo $session->id;}?>",
+            ];
 
-            },
-            <?php endforeach; endif; ?>
-        ];
-        
-    
-        // let the grid know which columns and what data to use
-        var gridOptions = {
-            columnDefs: columnDefs,
-            rowData: rowData,
-            defaultColDef: {
-                resizable: true
-            },
-            onCellValueChanged: onCellValueChanged
-        };
+            const gridOptions = {
+                columnDefs: colDefs,
+                defaultColDef: {
+                    resizable: true
+                }
+            };
 
-        //Detects when any value is changed
-        function onCellValueChanged(params) {
-            alert("Change");
+            new agGrid.Grid(document.getElementById('myGrid'), gridOptions);
+            return gridOptions;
         }
-
-        // setup the grid after the page has finished loading
-        document.addEventListener('DOMContentLoaded', function () {
-            var gridDiv = document.querySelector('#myGrid');
-            new agGrid.Grid(gridDiv, gridOptions);
-        });
 
         function approveSession(id) {
             $api.call("supervisor/form-approve", {sessionId: id}, response => {
@@ -88,6 +60,40 @@ $sessions = WorkSessionDao::get_instance()->select();
                 }
             });
         }
+
+        function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this, args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+
+        const options = initializeAgGrid();
+        const nameFilter = options.api.getFilterInstance('fullName');
+
+        $api.call("data/sessions", {}, (response) => {
+            options.api.setRowData(response.data);
+            options.api.sizeColumnsToFit();
+        });
+
+        $("#name-search").keydown(debounce(() => {
+            console.log($("#name-search").val());
+
+            nameFilter.setModel({
+                type: "contains",
+                filter: $("#name-search").val()
+            });
+            nameFilter.onFilterChanged();
+        }, 250));
+
     </script>
 
-<?php include '.\..\footer.php'; ?>
+    <?php include '.\..\footer.php'; ?>

@@ -2,7 +2,7 @@
 include_once __DIR__ . '\Request.php';
 include_once __DIR__ . '\Response.php';
 include_once __DIR__ . '\RequestAction.php';
-include_once __DIR__ . '\..\Debug.php';
+include_once __DIR__ . '\..\Logger.php';
 
 class RequestEndpoint
 {
@@ -37,7 +37,7 @@ class RequestEndpoint
             }
 
             $a = $request->action;
-            Debug::log(sprintf('API call to "%s/%s"', Debug::get_script_dir(), $a));
+            Logger::log(sprintf('API call to "%s/%s"', Logger::get_script_dir(), $a));
 
             if (isset($this->actions[$a])) {
                 $response = $this->actions[$a]($request);
@@ -45,7 +45,11 @@ class RequestEndpoint
                 $response = new Response(false, 'Invalid action');
             }
 
-            $response->echo();
+            if ($response) {
+                $response->echo();
+            } else {
+                (new Response(false))->echo();
+            }
         } catch (ResponseException $e) {
             $e->getResponse()->echo();
         } catch (Exception $e) {

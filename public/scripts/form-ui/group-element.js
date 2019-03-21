@@ -4,6 +4,8 @@ class GroupElement extends Element {
         this.children = [];
 
         this.load();
+
+        this.anon = 0;
     }
 
     _prepareTemplate() {
@@ -26,7 +28,7 @@ class GroupElement extends Element {
     }
 
     append(element) {
-        const id = element.id !== null ? element.id : new Date();
+        const id = element.id !== null ? element.id : this.anon++;
 
         this.children[id] = element;
         this.html.append(element.html);
@@ -37,8 +39,19 @@ class GroupElement extends Element {
     getField(id) {
         if (this.children.hasOwnProperty(id))
             return this.children[id];
-        else
+        else {
+            for (const key of Object.keys(this.children)) {
+                const child = this.children[key];
+
+                if (typeof child.getField !== "undefined") {
+                    const result = child.getField(id);
+                    if (result) {
+                        return result;
+                    }
+                }
+            }
             return null;
+        }
     }
 
     printMessage(elementId, message) {
@@ -91,7 +104,4 @@ class GroupElement extends Element {
 
         return true;
     }
-}
-
-class AlternatingGroupElement extends GroupElement {
 }

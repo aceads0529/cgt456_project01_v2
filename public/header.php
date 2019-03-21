@@ -1,4 +1,8 @@
-<?php include_once __DIR__ . '\includes.php'; ?>
+<?php
+include_once __DIR__ . '\includes.php';
+global $PAGE_TITLE;
+global $PAGE_TYPE;
+?>
 
 <!DOCTYPE html>
 <html lang="en-us">
@@ -6,7 +10,17 @@
     <base href="/"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Purdue University CGT Internship Portal</title>
+    <title>
+        <?php
+        $title_tag = SITE_TITLE;
+
+        if ($PAGE_TITLE) {
+            $title_tag .= ' - ' . $PAGE_TITLE;
+        }
+
+        echo $title_tag;
+        ?>
+    </title>
 
     <link href="./css/main.css" rel="stylesheet"/>
     <link href="./css/form-ui.css" rel="stylesheet"/>
@@ -43,7 +57,7 @@
     <script src="https://unpkg.com/ag-grid-community@20.1.0/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
-<div class="header">
+<header>
     <?php
     $user = AuthService::get_active_user();
     $user_group = null;
@@ -81,14 +95,20 @@
     </nav>
 
 
-
-    <?php if (!AuthService::get_active_user()): ?>
+    <?php if (!$user): ?>
         <button id="loginBtn" style="display: none;"><a href="auth/logout.php">Logout</a></button>
     <?php else: ?>
+        <span>Hello, <?php echo $user->first_name; ?></span>
         <button id="loginBtn"><a href="auth/logout.php">Logout</a></button>
     <?php endif; ?>
 
-</div>
+    <?php if ($PAGE_TITLE): ?>
+        <h1 id="page-title"><?php echo $PAGE_TITLE; ?></h1>
+    <?php endif; ?>
+
+</header>
+
+<div id="page-content" class="<?php echo $PAGE_TYPE; ?>">
 
 	
 	

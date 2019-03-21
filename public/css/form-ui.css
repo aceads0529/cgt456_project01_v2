@@ -1,14 +1,8 @@
 .card-background, form {
-    max-width: 960px;
-    margin: 0 auto;
     background-color: white;
     padding: 50px 50px;
     border-radius: 8px;
     color: black;
-}
-
-.card-background {
-    max-width: 1200px;
 }
 
 input, textarea {
@@ -54,6 +48,7 @@ input[type=text], textarea {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .label-input.expand {

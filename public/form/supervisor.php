@@ -1,4 +1,5 @@
-<?php include '.\..\header.php'; ?>
+<?php include '.\..\site.php';
+site_header('Supervisor Evaluation Form', CGT_PAGE_FORM); ?>
 
 <div class="progress-wrapper">
     <ul id="progressbar">

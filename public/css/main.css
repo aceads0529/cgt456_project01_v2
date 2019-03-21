@@ -18,15 +18,34 @@ html {
 
 body {
     color: white;
-    font-size: 11pt;
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
 	font-size: 12pt;
-    margin: 20px 20px 100px;
 }
 
-.header {
-    padding: 1.5em;
+#page-title {
+    text-align: center;
+}
+
+#page-content {
+    margin: 64px auto;
+}
+
+.page-default {
+    max-width: 1600px;
+}
+
+.page-form {
+    max-width: 960px;
+}
+
+.page-form-sm {
+    max-width: 400px;
+}
+
+header {
+    background: black;
+    padding: 3em;
     margin-bottom: 1.5rem;
     position: relative;
 }

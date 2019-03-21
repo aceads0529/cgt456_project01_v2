@@ -42,11 +42,11 @@ class MailService
             if ($mail->send()) {
                 return true;
             } else {
-                Debug::log(sprintf('Failed to send email to "%s"', $to), Debug::ERROR);
+                Logger::log(sprintf('Failed to send email to "%s"', $to), Logger::ERROR);
                 return false;
             }
         } catch (Exception $e) {
-            Debug::log($e->getMessage(), Debug::ERROR);
+            Logger::log($e->getMessage(), Logger::ERROR);
             return false;
         }
     }

@@ -1,4 +1,6 @@
-<?php include '.\..\header.php';
+<?php include '.\..\site.php';
+site_header('Student Work Session', CGT_PAGE_FORM);
+
 require_login(); ?>
 
 
@@ -18,4 +20,3 @@ require_login(); ?>
 <script src="../scripts/form-student.js"></script>
 
 <?php include '.\..\footer.php'; ?>
-

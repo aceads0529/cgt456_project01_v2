@@ -1,4 +1,5 @@
-<?php include '../header.php'; ?>
+<?php include '../site.php';
+site_header('Logout', CGT_PAGE_FORM_SM); ?>
 
 <script>
     $api.call("user/logout", {}, () => {

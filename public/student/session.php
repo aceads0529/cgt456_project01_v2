@@ -1,4 +1,6 @@
-<?php include '.\..\header.php';
+<?php include '.\..\site.php';
+site_header('Student Work Session', CGT_PAGE_FORM);
+
 $user = require_login();
 
 $sid = read_get('sid');

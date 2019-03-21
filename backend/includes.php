@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . '\core\Debug.php';
+include_once __DIR__ . '\core\Logger.php';
 include_once __DIR__ . '\core\data\Dao.php';
 include_once __DIR__ . '\core\data\DaoConnection.php';
 include_once __DIR__ . '\core\data\Entity.php';
@@ -14,6 +14,7 @@ include_once __DIR__ . '\core\http\Response.php';
 include_once __DIR__ . '\core\http\ResponseException.php';
 
 include_once __DIR__ . '\dao\EmployerDao.php';
+include_once __DIR__ . '\dao\EmployerDao2.php';
 include_once __DIR__ . '\dao\OptionDao.php';
 include_once __DIR__ . '\dao\StudentFormDao.php';
 include_once __DIR__ . '\dao\SupervisorFormDao.php';
@@ -37,3 +38,4 @@ include_once __DIR__ . '\services\AuthService.php';
 include_once __DIR__ . '\services\MailService.php';
 include_once __DIR__ . '\services\SessionService.php';
 
+include_once __DIR__ . '\environment.php';

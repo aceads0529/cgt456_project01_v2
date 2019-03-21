@@ -1,15 +1,16 @@
-<?php include '../header.php'; ?>
+<?php include '../site.php';
+site_header('Login', CGT_PAGE_FORM_SM); ?>
 
 <form id="form-login"></form>
 
 <div id="form-login"></div>
 <script>
     $form.ready(function () {
-        const loginForm = new GroupElement("login", "Login")
+        const loginForm = new GroupElement("login")
             .append(new TextElement("login", "Login"))
             .append(new TextElement("password", "Password", "password"))
             .append(new RowElement()
-                .append(new ButtonElement("login", "Login")));
+                .append(new ButtonElement("btn-login", "Login")));
 
         const host = $('#form-login');
 

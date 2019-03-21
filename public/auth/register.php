@@ -1,4 +1,5 @@
-<?php include '../header.php'; ?>
+<?php include '../site.php';
+site_header('Register', CGT_PAGE_FORM); ?>
 
     <form id="form-login"></form>
 

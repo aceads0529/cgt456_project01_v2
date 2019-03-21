@@ -13,31 +13,25 @@
 </div>
 
 @Template TextElement
-<div class="form-row">
-    <div class="label-input">
-        <label for="%id%">%label%</label>
-        <input data-text type="text" id="%id%"/>
-    </div>
+<div class="label-input">
+    <label for="%id%">%label%</label>
+    <input data-text type="text" id="%id%"/>
 </div>
 
 @Template TextareaElement
-<div class="form-row">
-    <div class="label-input">
-        <label for="%id%">%label%</label>
-        <textarea data-text id="%id%" rows="6"></textarea>
-    </div>
+<div class="label-input">
+    <label for="%id%">%label%</label>
+    <textarea data-text id="%id%" rows="6"></textarea>
 </div>
 
 @Template OptionElement
-<div class="form-row">
-    <div class="label-input">
-        <label>%label%</label>
-        <div data-options class="options">
-            <div class="option-group" data-option-group>
-                <div class="option" data-option>
-                    <input data-option-input type="%type%" name="%id%"/>
-                    <label data-option-label></label>
-                </div>
+<div class="label-input">
+    <label>%label%</label>
+    <div data-options class="options">
+        <div class="option-group" data-option-group>
+            <div class="option" data-option>
+                <input data-option-input type="%type%" name="%id%"/>
+                <label data-option-label></label>
             </div>
         </div>
     </div>
@@ -68,21 +62,19 @@
 <button data-button id="%id%" class="form-button">%label%</button>
 
 @Template RowElement
-<div data-row class="form-button-row"></div>
+<div data-row class="form-row"></div>
 
 @Template ReadonlyElement
 <input type="hidden"/>
 
 @Template SearchElement
-<div class="form-row">
-    <div class="label-input">
-        <label for="%id%">%label%</label>
-        <div class="searchbox">
-            <input data-text type="text" autocomplete="off" id="%id%"/>
-            <ul class="search-results" data-search-list>
-                <li data-search-item></li>
-            </ul>
-        </div>
+<div class="label-input">
+    <label for="%id%">%label%</label>
+    <div class="searchbox">
+        <input data-text type="text" autocomplete="off" id="%id%"/>
+        <ul class="search-results" data-search-list>
+            <li data-search-item></li>
+        </ul>
     </div>
 </div>
 

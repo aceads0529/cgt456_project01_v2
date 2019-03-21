@@ -11,13 +11,32 @@ if ($scripts) {
     fwrite($file, PHP_EOL);
 
     foreach ($scripts as $script) {
-        fwrite($file, $script);
-        fwrite($file, PHP_EOL);
+        if ($script !== '') {
+            write_include($file, $script);
+        } else {
+            fwrite($file, PHP_EOL);
+        }
     }
 }
 
+write_include($file, '\environment.php');
+
 fclose($file);
 
+/**
+ * @param Resource $output
+ * @param string $include
+ */
+function write_include($output, $include)
+{
+    fwrite($output, sprintf(INCLUDE_TEMPLATE, $include));
+    fwrite($output, PHP_EOL);
+}
+
+/**
+ * @param string $root
+ * @return array
+ */
 function get_php_files($root = '')
 {
     $result = array();
@@ -37,7 +56,7 @@ function get_php_files($root = '')
     } elseif (pathinfo($root, PATHINFO_DIRNAME) != '\\'
         && pathinfo($root, PATHINFO_EXTENSION) === 'php'
         && pathinfo($root, PATHINFO_FILENAME) != 'index') {
-        $result = [sprintf(INCLUDE_TEMPLATE, $root)];
+        $result = [$root];
     }
 
     return $result;

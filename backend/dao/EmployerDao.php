@@ -6,6 +6,19 @@ class EmployerDao extends EntityDao
     protected static $instance;
 
     /**
+     * @param array $row
+     * @return Employer
+     */
+    private function employer_from_row($row)
+    {
+        return new Employer(
+            $row['id'],
+            $row['name'],
+            $row['address'],
+            explode(',', $row['cgt_field_ids']));
+    }
+
+    /**
      * @return EmployerDao
      */
     public static function get_instance()
@@ -30,8 +43,7 @@ class EmployerDao extends EntityDao
         if ($rows = $this->conn->query($query_str, $ids)) {
             $result = array();
             foreach ($rows as $row) {
-                $row['cgt_field_ids'] = explode(',', $row['cgt_field_ids']);
-                $result[] = Employer::from_array($row);
+                $result[] = $this->employer_from_row($row);
             }
             return $result;
         } else {
@@ -105,8 +117,7 @@ class EmployerDao extends EntityDao
         if ($rows = $this->conn->query($query_str, [$name])) {
             $result = array();
             foreach ($rows as $row) {
-                $row['cgt_field_ids'] = explode(',', $row['cgt_field_ids']);
-                $result[] = Employer::from_array($row);
+                $result[] = $this->employer_from_row($row);
             }
             return $result;
         } else {
