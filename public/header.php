@@ -35,6 +35,7 @@
     <script src="./scripts/form-ui/row-element.js"></script>
     <script src="./scripts/form-ui/readonly-element.js"></script>
     <script src="./scripts/form-ui/search-element.js"></script>
+	<script src="./scripts/form-ui/file-element.js"></script>
     <script src="./scripts/md5.min.js"></script>
 
     <script src="./scripts/api.js"></script>
@@ -67,7 +68,7 @@
         <a href="https://polytechnic.purdue.edu/"><img id="logo" src="../images/PolytechLogo.png"></a>
 
         <div id="polytechHeader">
-            <img src="images/newheader-02-01.png" style="width:40em">
+            <img src="images/newheader-02-01.png">
         </div>
     </div>
 

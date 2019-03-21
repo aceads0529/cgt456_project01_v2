@@ -91,6 +91,6 @@
     <div class="label-input">
 		<input type="hidden" name="MAX_FILE_SIZE" value="200000000" />
         <label for="%id%">%label%</label>
-        <input data-file type="file" name="%id%" id="%id%"/>
+		<input data-file type="file" name="%id%" id="%id%" multiple />
     </div>
 </div>

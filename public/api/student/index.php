@@ -73,9 +73,7 @@ $api->action('form')
 
         $session = $request->get_data('session');
         $prompts = $request->get_data('prompts');
-
-        // Uploaded file handling here...
-
+		
         $session = new WorkSession(
             $session['id'] !== null && $session['id'] !== '' ? (int)$session['id'] : null,
             $user->id,
