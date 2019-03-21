@@ -67,7 +67,7 @@
         <a href="https://polytechnic.purdue.edu/"><img id="logo" src="../images/PolytechLogo.png"></a>
 
         <div id="polytechHeader">
-            <h1>Polytech Internship Program</h1>
+            <img src="images/newheader-02-01.png" style="width:40em">
         </div>
     </div>
 
