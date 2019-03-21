@@ -122,6 +122,7 @@ input[type=text], textarea {
 
 .form-button-row {
     display: flex;
+    margin-top: 50px;
 }
 
 .form-button-row a {
@@ -135,7 +136,7 @@ input[type=text], textarea {
 }
 
 .form-button-row a:hover {
-    background-color: #c28e0e;
+    background-color: #E0E0E0;
 }
 
 .form-button-row button {
