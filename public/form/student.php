@@ -16,7 +16,7 @@ require_login(); ?>
     </ul>
 </div>
 
-<form id="form-student"></form>
+<form id="form-student" enctype="multipart/form-data"></form>
 <script src="../scripts/form-student.js"></script>
 
 <?php include '.\..\footer.php'; ?>

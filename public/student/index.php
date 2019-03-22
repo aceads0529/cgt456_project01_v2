@@ -6,10 +6,6 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 <div class="card-background">
     <h2>Internship Sessions</h2>
 
-    <div class="form-button-row">
-        <a href="form/student.php">+ Create new</a>
-    </div>
-
     <table>
         <thead>
         <tr>
@@ -57,6 +53,10 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
         <?php endif; ?>
         </tbody>
     </table>
+	
+	<div class="form-button-row">
+        <a href="form/student.php">+ Create new</a>
+    </div>
 
 </div>
 

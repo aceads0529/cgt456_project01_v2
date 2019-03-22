@@ -1,4 +1,5 @@
 const forms = [];
+const form = document.querySelector('form');
 
 function showForm(form) {
     forms.forEach((item, index) => item.html.toggleClass("hide", index !== form));
@@ -20,6 +21,22 @@ function onSubmit() {
         session: forms[1].value(),
         prompts: forms[2].value()
     };
+	
+	const files = document.querySelector('[type=file]').files;
+	const fileData = new FormData();
+	
+	for (let i = 0; i <files.length; i++) {
+		let file = files[i];
+		
+		fileData.append('files[]', file);
+	}
+	
+	fetch("api/student/upload.php", {
+		method: 'POST',
+		body: fileData,
+	}).then(response => {
+		console.log(response);
+	});
 
     $api.call("student/form", data, response => {
         window.location.replace("student/index.php");
@@ -93,6 +110,7 @@ function createSessionForm() {
             .append(new TextElement("totalHours", "Total hours worked", "number"))
             .append(new TextElement("payRate", "If paid, what was your hourly rate?", "number"))
             .append(assistance))
+		.append(new FileElement("files[]", "Upload work documentation"))
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(0)))
             .append(new ButtonElement("next", "Next", () => showForm(2))));
@@ -109,9 +127,11 @@ function createPromptsForm() {
         .append(new TextareaElement("cgtChangedMind", "Has this work experience changed your mind about which sector of CGT you might be most interested in pursuing?"))
         .append(new TextareaElement("providedContacts", "Did the internship provide you with contacts which may lead to future employment?"))
         .append(new LikertElement("rating", "Considering your overall experience, how would you rate this internship?").value(2))
+
         .append(new RowElement()
             .append(new ButtonElement("prev", "Previous", () => showForm(1)))
-            .append(new ButtonElement("submit", "Submit", () => onSubmit())));
+            .append(new ButtonElement("submit", "Submit", () => onSubmit()))
+		);
 }
 
 function populateForm(data) {
@@ -137,6 +157,7 @@ function populateForm(data) {
     forms[2].getField("cgtChangedMind").value(data.prompts.form_cgt_changed_mind);
     forms[2].getField("providedContacts").value(data.prompts.form_provided_contacts);
     forms[2].getField("rating").value(data.prompts.rating);
+	
 }
 
 $form.ready(function () {
