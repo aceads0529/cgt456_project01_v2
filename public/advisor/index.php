@@ -8,7 +8,10 @@ $sessions = WorkSessionDao::get_instance()->select();
 <div class="card-background">
     <h2>Student Work Sessions</h2>
 
-    <input id="name-search" type="text"/>
+    <div class="label-input">
+        <label for="name-search">Search by name</label>
+        <input id="name-search" type="text"/>
+    </div>
 
     <div id="session-table" style="height: 100%;" class="ag-theme-balham"></div>
 
@@ -58,6 +61,9 @@ $sessions = WorkSessionDao::get_instance()->select();
                 columnDefs: colDefs,
                 defaultColDef: {
                     resizable: true
+                },
+                onGridSizeChanged: (event) => {
+                    event.api.sizeColumnsToFit();
                 }
             };
 
@@ -93,7 +99,6 @@ $sessions = WorkSessionDao::get_instance()->select();
 
         $api.call("data/sessions", {}, (response) => {
             options.api.setRowData(response.data);
-            options.api.sizeColumnsToFit();
         });
 
         $("#name-search").keydown(debounce(() => {
