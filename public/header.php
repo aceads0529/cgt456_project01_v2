@@ -59,25 +59,6 @@ global $PAGE_TYPE;
 <body>
 <?php if ($PAGE_TYPE != CGT_PAGE_FULL): ?>
 <header>
-    <?php
-    $user = AuthService::get_active_user();
-    $user_group = null;
-
-    if ($user) {
-        $user_group = $user->user_group_id;
-    }
-
-    $home_link = null;
-
-    switch ($user_group) {
-        case 'student':
-            $home_link = 'student/index.php';
-            break;
-        case 'advisor':
-            $home_link = 'advisor/index.php';
-    }
-    ?>
-
     <div id="header-content">
         <a id="header-logo" href="https://polytechnic.purdue.edu/"></a>
         <div id="header-banner"></div>
@@ -85,22 +66,24 @@ global $PAGE_TYPE;
 
     <nav>
         <div id="nav-content">
-            <?php if ($user): ?>
+            <?php if ($user = AuthService::get_active_user()):
+                $home_link = $user->user_group_id . '/index.php'; ?>
+
                 <a href="<?php echo $home_link; ?>">Home</a>
-                <a href="#">Submit session</a>
+                <?php if ($user->user_group_id === 'student'): ?>
+                    <a href="form/student.php">Submit session</a>
+                <?php endif; ?>
                 <div id="nav-spacer"></div>
                 <span><?php echo $user->first_name . ' ' . $user->last_name; ?></span>
                 <a href="auth/logout.php">Logout</a>
+
             <?php else: ?>
+
                 <a href="auth/login.php">Login</a>
+
             <?php endif; ?>
         </div>
     </nav>
-
-    <!--<?php if ($PAGE_TITLE): ?>
-        <h1 id="page-title"><?php echo $PAGE_TITLE; ?></h1>
-    <?php endif; ?>-->
-
 </header>
 
 <div id="page-content" class="<?php echo $PAGE_TYPE; ?>">

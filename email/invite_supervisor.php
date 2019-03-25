@@ -7,6 +7,6 @@
         Department
         information about our students' performance.</p>
     <p>To complete the survey, please visit this link:
-        <a href="<?php echo $var('invitation_url'); ?>">Purdue University CGT Internship Survey Link</a>
+        <a href="<?php echo $var('invitation_url'); ?>">Purdue University Polytechnic Internship Survey Link</a>
     </p>
 </div>
