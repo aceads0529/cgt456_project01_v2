@@ -1,30 +1,40 @@
 <?php include '../site.php';
-site_header('Login', CGT_PAGE_FORM_SM); ?>
+site_header('Login', CGT_PAGE_FULL);
+?>
+<div id="login-wrapper">
+    <div id="login-background"></div>
+    <form id="login-form" class="card-background">
+        <div id="page-title"></div>
+    </form>
+</div>
 
-<form id="form-login"></form>
-
-<div id="form-login"></div>
 <script>
-    $form.ready(function () {
-        const loginForm = new GroupElement("login")
-            .append(new TextElement("login", "Login"))
+    $form.ready(() => {
+        const buttonRow = new RowElement();
+
+        const form = new GroupElement("form", "Polytechnic Internship Portal")
+            .append(new TextElement("login", "Username"))
             .append(new TextElement("password", "Password", "password"))
-            .append(new RowElement()
-                .append(new ButtonElement("btn-login", "Login")));
+            .append(buttonRow
+                .append(new ButtonElement("submit", "Login")));
 
-        const host = $('#form-login');
+        buttonRow.html.prepend(`<a href="auth/register.php">Register</a>`);
 
-        host.append(loginForm.html);
-        host.submit(function (e) {
-            e.preventDefault();
+        const formHost = $("#login-form");
+        formHost.append(form.html);
 
-            $api.call('user/login', loginForm.value(), function (response) {
-                if (response.success && response.data.redirect) {
-                    location.replace(response.data.redirect);
-                }
-            });
+        formHost.submit((event) => {
+            event.preventDefault();
+
+            if (form.validate()) {
+                $api.call('user/login', form.value(), function (response) {
+                    if (response.success && response.data.redirect) {
+                        location.replace(response.data.redirect);
+                    }
+                });
+            } else {
+                form.error("Missing required fields");
+            }
         });
     });
 </script>
-
-<?php include '../footer.php'; ?>

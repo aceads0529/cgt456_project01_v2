@@ -1,0 +1,33 @@
+#login-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    background-image: url("bkg_purdue.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+#login-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 480px;
+    width: 90%;
+}
+
+#login-form #page-title {
+    height: 64px;
+    background-image: url("../images/purdue_logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 40px;
+}
+
+#login-form .form-group .label {
+    text-align: center;
+}

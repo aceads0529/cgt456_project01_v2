@@ -13,17 +13,16 @@ global $PAGE_TYPE;
     <title>
         <?php
         $title_tag = SITE_TITLE;
-
         if ($PAGE_TITLE) {
             $title_tag .= ' - ' . $PAGE_TITLE;
         }
-
         echo $title_tag;
         ?>
     </title>
 
     <link href="./css/main.css" rel="stylesheet"/>
     <link href="./css/form-ui.css" rel="stylesheet"/>
+    <link href="./css/login.css" rel="stylesheet"/>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,400i,700"
           rel="stylesheet">
@@ -49,7 +48,7 @@ global $PAGE_TYPE;
     <script src="./scripts/form-ui/row-element.js"></script>
     <script src="./scripts/form-ui/readonly-element.js"></script>
     <script src="./scripts/form-ui/search-element.js"></script>
-	<script src="./scripts/form-ui/file-element.js"></script>
+    <script src="./scripts/form-ui/file-element.js"></script>
     <script src="./scripts/md5.min.js"></script>
 
     <script src="./scripts/api.js"></script>
@@ -58,6 +57,7 @@ global $PAGE_TYPE;
     <script src="https://unpkg.com/ag-grid-community@20.1.0/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
+<?php if ($PAGE_TYPE != CGT_PAGE_FULL): ?>
 <header>
     <?php
     $user = AuthService::get_active_user();
@@ -78,39 +78,30 @@ global $PAGE_TYPE;
     }
     ?>
 
-    <div>
-        <a href="https://polytechnic.purdue.edu/"><img id="logo" src="../images/PolytechLogo.png"></a>
-
-        <div id="polytechHeader">
-            <img src="images/newheader-02-01.png">
-        </div>
+    <div id="header-content">
+        <a id="header-logo" href="https://polytechnic.purdue.edu/"></a>
+        <div id="header-banner"></div>
     </div>
 
     <nav>
-        <ul>
-            <?php if ($home_link !== null): ?>
-                <li><a href="<?php echo $home_link; ?>">Home</a></li>
+        <div id="nav-content">
+            <?php if ($user): ?>
+                <a href="<?php echo $home_link; ?>">Home</a>
+                <a href="#">Submit session</a>
+                <div id="nav-spacer"></div>
+                <span><?php echo $user->first_name . ' ' . $user->last_name; ?></span>
+                <a href="auth/logout.php">Logout</a>
+            <?php else: ?>
+                <a href="auth/login.php">Login</a>
             <?php endif; ?>
-            <li><a href="auth/register.php">Register</a></li>
-        </ul>
+        </div>
     </nav>
 
-
-    <?php if (!$user): ?>
-        <button id="loginBtn" style="display: none;"><a href="auth/logout.php">Logout</a></button>
-    <?php else: ?>
-        <span>Hello, <?php echo $user->first_name; ?></span>
-        <button id="loginBtn"><a href="auth/logout.php">Logout</a></button>
-    <?php endif; ?>
-
-    <?php if ($PAGE_TITLE): ?>
+    <!--<?php if ($PAGE_TITLE): ?>
         <h1 id="page-title"><?php echo $PAGE_TITLE; ?></h1>
-    <?php endif; ?>
+    <?php endif; ?>-->
 
 </header>
 
 <div id="page-content" class="<?php echo $PAGE_TYPE; ?>">
-
-	
-	
-
+    <?php endif; ?>

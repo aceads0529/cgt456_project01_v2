@@ -44,8 +44,8 @@
         <div data-options class="likerts">
             <div class="likert-group" data-option-group>
                 <div class="likert" data-option>
-					<label data-option-label></label><br>
-					<input data-option-input type="%type%" name="%id%"/>
+                    <label data-option-label></label><br>
+                    <input data-option-input type="%type%" name="%id%"/>
                 </div>
             </div>
         </div>
@@ -59,7 +59,9 @@
 </div>
 
 @Template ButtonElement
-<button data-button id="%id%" class="form-button">%label%</button>
+<div class="form-button-row">
+    <button data-button id="%id%" class="form-button">%label%</button>
+</div>
 
 @Template RowElement
 <div data-row class="form-row"></div>
@@ -79,10 +81,8 @@
 </div>
 
 @Template FileElement
-<div class="form-row">
-    <div class="label-input">
-		<input type="hidden" name="MAX_FILE_SIZE" value="200000000" />
-        <label for="%id%">%label%</label>
-		<input data-file type="file" name="%id%" id="%id%" multiple />
-    </div>
+<div class="label-input">
+    <input type="hidden" name="MAX_FILE_SIZE" value="200000000"/>
+    <label for="%id%">%label%</label>
+    <input data-file type="file" name="%id%" id="%id%" multiple/>
 </div>

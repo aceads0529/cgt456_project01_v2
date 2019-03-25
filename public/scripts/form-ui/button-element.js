@@ -7,7 +7,9 @@ class ButtonElement extends Element {
 
     _prepareTemplate() {
         this.getElement('button').click((e) => {
-            this.onClick();
+            if (this.onClick) {
+                this.onClick(e);
+            }
         })
     }
 

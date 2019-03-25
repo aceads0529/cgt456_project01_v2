@@ -1,7 +1,7 @@
 <?php include '../site.php';
 site_header('', CGT_PAGE_DEFAULT);
 
-$user = require_login();
+$user = auth_allow(CGT_USER_ADVISOR);
 $sessions = WorkSessionDao::get_instance()->select();
 ?>
 
@@ -10,27 +10,36 @@ $sessions = WorkSessionDao::get_instance()->select();
 
     <input id="name-search" type="text"/>
 
-    <div id="myGrid" style="height: 100%;" class="ag-theme-balham"></div>
+    <div id="session-table" style="height: 100%;" class="ag-theme-balham"></div>
 
     <script type="text/javascript" charset="utf-8">
         function initializeAgGrid() {
+            const column = (props) => Object.assign({
+                width: 100,
+                sortable: true,
+                filter: true,
+                autoHeight: true
+            }, props);
+
             const colDefs = [
-                {hide: true, headerName: "Full name", field: "fullName", filter: true},
-                {headerName: "First name", field: "firstName", width: 200, sortable: true, filter: true},
-                {headerName: "Last name", field: "lastName", width: 200, sortable: true, filter: true},
-                {headerName: "Job title", field: "jobTitle", width: 168, sortable: true, filter: true},
-                {headerName: "Start date", field: "startDate", width: 100, sortable: true, filter: true},
-                {headerName: "End date", field: "endDate", width: 100, sortable: true, filter: true},
-                {headerName: "Employer", field: "employer", width: 200, sortable: true, filter: true},
-                {headerName: "Total hours", field: "totalHours", width: 80, sortable: true, filter: true},
-                {
-                    headerName: "", field: "session", width: 50,
+                column({headerName: "Full name", field: "fullName", hide: true}),
+                column({headerName: "First name", field: "firstName"}),
+                column({headerName: "Last name", field: "lastName"}),
+                column({headerName: "Employer", field: "employer"}),
+                column({headerName: "Job title", field: "jobTitle"}),
+                column({headerName: "Start date", field: "startDate"}),
+                column({headerName: "End date", field: "endDate"}),
+                column({
+                    headerName: "Hours",
+                    field: "hours",
+                    width: 50,
                     cellRenderer: params => {
-                        return `<a target="_blank" href="student/session.php?sid=${params.value.id}">[View]</a>`;
+                        return `<div class="table-hour-wrapper"><span class="table-hour"/>${params.value}</span> <span class="table-hour-total">/ ${params.data.totalHours}</span></div>`;
                     }
-                },
-                {
-                    headerName: "Status", field: "session", width: 100, sortable: true,
+                }),
+                column({
+                    headerName: "Status",
+                    field: "session",
                     cellRenderer: params => {
                         const session = params.value;
                         if (session.approved) {
@@ -38,8 +47,11 @@ $sessions = WorkSessionDao::get_instance()->select();
                         } else {
                             return `<a style="text-decoration: underline" onclick="approveSession(${session.id})">[Approve]</a>`;
                         }
+                    },
+                    comparator: (a, b) => {
+                        return a.approved - b.approved;
                     }
-                }
+                })
             ];
 
             const gridOptions = {
@@ -49,7 +61,7 @@ $sessions = WorkSessionDao::get_instance()->select();
                 }
             };
 
-            new agGrid.Grid(document.getElementById('myGrid'), gridOptions);
+            new agGrid.Grid(document.getElementById('session-table'), gridOptions);
             return gridOptions;
         }
 

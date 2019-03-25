@@ -1,4 +1,6 @@
-<?php include '.\..\header.php';
+<?php include '.\..\site.php';
+site_header('Student Portal', CGT_PAGE_DEFAULT);
+
 $user = require_login();
 $sessions = WorkSessionDao::get_instance()->select_student($user->id);
 ?>
@@ -14,7 +16,7 @@ $sessions = WorkSessionDao::get_instance()->select_student($user->id);
             <th>Company name</th>
             <th>Job title</th>
             <th>Hours</th>
-            <th><a  href="form/student.php">+ Create new</a></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

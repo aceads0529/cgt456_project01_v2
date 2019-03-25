@@ -1,5 +1,5 @@
 class TextElement extends Element {
-    constructor(id, label, type = 'text', required = false, validator = null) {
+    constructor(id, label, type = 'text', required = true, validator = null) {
         super(id, label, required, validator);
         this.type = type;
         this.load();

@@ -76,6 +76,10 @@ class AuthService
      */
     public static function register($user, $password)
     {
+        if (!$user || !$password) {
+            throw new ResponseException(new Response(false, 'Missing required fields'));
+        }
+
         $dao = UserDao::get_instance();
 
         if ($dao->select_login($user->login)) {

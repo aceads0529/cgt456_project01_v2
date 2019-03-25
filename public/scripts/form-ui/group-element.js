@@ -54,25 +54,18 @@ class GroupElement extends Element {
         }
     }
 
-    printMessage(elementId, message) {
-        const field = this.getField(elementId);
-
-        if (field && field.constructor.name === "MessageElement") {
-            field.value(message);
-        }
-
-        return this;
-    }
-
     validate() {
-        super.validate();
+        if (super.validate()) {
+            for (let child in this.children) {
+                if (!this.children[child].validate()) {
+                    return false;
+                }
+            }
 
-        for (let child in this.children) {
-            if (!this.children[child].validate())
-                return false;
+            return true;
+        } else {
+            return false;
         }
-
-        return true;
     }
 
     value(v) {
@@ -95,13 +88,15 @@ class GroupElement extends Element {
     }
 
     complete() {
-        if (this.required) {
+        if (!this.required) {
+            return true;
+        } else {
             for (let child in this.children) {
-                if (!this.children[child].complete())
+                if (!this.children[child].complete()) {
                     return false;
+                }
             }
+            return true;
         }
-
-        return true;
     }
 }

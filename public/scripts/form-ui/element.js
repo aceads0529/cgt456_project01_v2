@@ -44,10 +44,8 @@ class Element {
     }
 
     validate() {
-        if (this.validator)
-            return this.validator(this.value());
-        else
-            return true;
+        const valid = this.validator ? this.validator(this.value()) : true;
+        return valid && this.complete();
     }
 
     complete() {

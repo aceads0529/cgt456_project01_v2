@@ -11,9 +11,9 @@ $api->action('sessions')
         $conn = DaoConnection::default_host();
 
         $query_str =
-            'SELECT U.first_name, U.last_name, E.name as employer, W.id as session_id, W.job_title, W.start_date, W.end_date, W.total_hours, W.pay_rate, W.approved ' .
-            'FROM user U, employer E, work_session W ' .
-            'WHERE W.student_id = U.id AND W.employer_id = E.id';
+            'SELECT U.first_name, U.last_name, E.name as employer, W.id as session_id, W.job_title, W.start_date, W.end_date, W.total_hours as hours, T.total_hours, W.pay_rate, W.approved ' .
+            'FROM user U, employer E, work_session W, (SELECT U.id, SUM(W.total_hours) as total_hours FROM work_session W, user U WHERE U.id = W.student_id GROUP BY U.id) T ' .
+            'WHERE U.user_group_id = "student" AND W.student_id = U.id AND W.employer_id = E.id AND T.id = U.id';
 
         $params = array();
 
@@ -39,7 +39,8 @@ $api->action('sessions')
                 'jobTitle' => $row['job_title'],
                 'startDate' => $row['start_date'],
                 'endDate' => $row['end_date'],
-                'totalHours' => $row['total_hours'],
+                'hours' => $row['hours'],
+                'totalHours' => (int)$row['total_hours'],
                 'payRate' => $row['pay_rate']
             ];
         }
